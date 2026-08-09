@@ -36,10 +36,20 @@ npm run preview # sert dist/ localement pour vérifier avant mise en ligne
 
 ### Mise en ligne
 
-| Hébergeur | Réglages |
+**Vercel** — rien à configurer : `vercel.json` déclare déjà le framework, la commande de
+compilation, le dossier de sortie, la réécriture des routes et les en-têtes de cache.
+
+1. vercel.com → **Add New… → Project → Import Git Repository** → `Maurimax2/Po`
+2. Laissez tous les réglages proposés tels quels, **Deploy**.
+
+Chaque `git push` redéploie ensuite automatiquement. La compilation régénère les images à partir
+de `assets/` : rien d'autre à téléverser.
+
+En ligne de commande, depuis un clone du dépôt : `npx vercel --prod`.
+
+| Autre hébergeur | Réglages |
 |---|---|
 | Netlify | Build : `npm run build` · Publish : `dist` (le fichier `public/_redirects` gère déjà les routes) |
-| Vercel | Framework : Vite · Build : `npm run build` · Output : `dist` (`vercel.json` gère les routes) |
 | Autre | Servez `dist/` et renvoyez toutes les URL inconnues vers `/index.html` |
 
 ---

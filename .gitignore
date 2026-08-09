@@ -6,3 +6,4 @@ dist
 src/assets/generated
 public/favicon.png
 public/og.png
+tsconfig.tsbuildinfo
