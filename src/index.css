@@ -1,0 +1,336 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Fonts — self-hosted. The site makes zero third-party requests at runtime,
+   which matters on a Mauritanian mobile connection. The Arabic face is scoped
+   by unicode-range, so a French visitor never downloads it.
+--------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('./assets/fonts/bricolage-grotesque-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('./assets/fonts/instrument-sans-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./assets/fonts/jetbrains-mono-latin.woff2') format('woff2');
+  font-weight: 400 600;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Tajawal';
+  src: url('./assets/fonts/tajawal-400-arabic.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+08A0-08E1, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: 'Tajawal';
+  src: url('./assets/fonts/tajawal-500-arabic.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+08A0-08E1, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: 'Tajawal';
+  src: url('./assets/fonts/tajawal-700-arabic.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+08A0-08E1, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: 'Tajawal';
+  src: url('./assets/fonts/tajawal-800-arabic.woff2') format('woff2');
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+08A0-08E1, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+--------------------------------------------------------------------------- */
+@theme {
+  --color-noir: #0b0b0c;
+  --color-caisse: #141215;
+  --color-caisse-lift: #1b181d;
+  --color-trame: #272229;
+  --color-trame-lift: #3a3340;
+  --color-sable: #ede4d6;
+  --color-sable-dim: #a49a8d;
+  --color-sable-faint: #6d6660;
+  --color-amber: #ec8304;
+  --color-amber-lift: #ffa53d;
+  --color-amber-deep: #b3620a;
+
+  --font-display: 'Bricolage Grotesque', 'Tajawal', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Instrument Sans', 'Tajawal', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  --text-hero: clamp(2.6rem, 9vw, 5.4rem);
+  --text-hero--line-height: 0.94;
+  --text-hero--letter-spacing: -0.035em;
+  --text-display: clamp(2rem, 5.4vw, 3.4rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.03em;
+  --text-title: clamp(1.4rem, 3vw, 1.9rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.02em;
+  --text-hud: 0.6875rem;
+  --text-hud--line-height: 1;
+  --text-hud--letter-spacing: 0.16em;
+
+  --ease-iris: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-noir);
+    color: var(--color-sable);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Arabic gets a real Arabic face for everything, including headings. */
+  [dir='rtl'] body,
+  [dir='rtl'] .font-display {
+    font-family: 'Tajawal', ui-sans-serif, system-ui, sans-serif;
+  }
+  [dir='rtl'] {
+    --text-hero--line-height: 1.45;
+    --text-hero--letter-spacing: 0;
+    --text-display--line-height: 1.42;
+    --text-display--letter-spacing: 0;
+    --text-title--line-height: 1.5;
+    --text-title--letter-spacing: 0;
+    --text-hud--letter-spacing: 0;
+  }
+  /* JetBrains Mono has no Arabic: without this, every HUD label in the RTL
+     layout would drop to whatever monospace face the phone happens to ship. */
+  [dir='rtl'] .hud,
+  [dir='rtl'] .font-mono {
+    font-family: 'Tajawal', ui-sans-serif, system-ui, sans-serif;
+  }
+  /* Latin brand names, model numbers and phone numbers stay LTR and monospaced
+     inside Arabic text. */
+  [dir='rtl'] .latin {
+    font-family: var(--font-mono);
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-amber);
+    color: #000;
+  }
+
+  /* Scrollbar, dark UI. Chrome/Edge on Android ignores this; harmless. */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-noir);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-trame);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-trame-lift);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The signature motif: aperture, viewfinder brackets, scan sweep
+--------------------------------------------------------------------------- */
+@utility hud {
+  font-family: var(--font-mono);
+  font-size: var(--text-hud);
+  letter-spacing: var(--text-hud--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Corner brackets, drawn with a single element. They tighten on hover. */
+@utility brackets {
+  position: relative;
+}
+
+@keyframes iris-open {
+  from {
+    transform: rotate(-62deg) scale(1.18);
+  }
+  to {
+    transform: rotate(0deg) scale(1);
+  }
+}
+/* The overlay itself dissolves as the blades swing back. */
+@keyframes iris-fade {
+  0% {
+    opacity: 1;
+  }
+  62% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes iris-clip {
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    clip-path: circle(150% at 50% 50%);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(1200%);
+    opacity: 0;
+  }
+}
+@keyframes rec-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0.15;
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.anim-iris {
+  animation: iris-clip 1.2s var(--ease-iris) both;
+}
+.iris-overlay {
+  animation: iris-fade 1.5s var(--ease-iris) both;
+}
+.anim-iris-blades {
+  transform-origin: 50% 50%;
+  animation: iris-open 1.5s var(--ease-iris) both;
+}
+.anim-rise {
+  animation: rise 0.7s var(--ease-iris) both;
+}
+.anim-scan {
+  animation: scan 6s linear infinite;
+}
+.anim-rec {
+  animation: rec-blink 1.6s steps(1, end) infinite;
+}
+.anim-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* Reveal-on-scroll, driven by IntersectionObserver in useReveal(). */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s var(--ease-iris),
+    transform 0.6s var(--ease-iris);
+}
+.reveal[data-shown='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* A fine grid, like a monitor bezel. Sits under the dark sections. */
+.trame-grid {
+  background-image:
+    linear-gradient(to right, rgba(237, 228, 214, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(237, 228, 214, 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* Night-vision noise, extremely subtle. Pure CSS, no image request. */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(237, 228, 214, 0.05) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .anim-iris {
+    animation: none;
+    clip-path: none;
+  }
+  /* No shutter for anyone who asked for no motion — the photo is just there. */
+  .iris-overlay {
+    display: none;
+  }
+}
