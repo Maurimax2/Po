@@ -39,6 +39,15 @@ npm run preview # sert dist/ localement pour vérifier avant mise en ligne
 **Vercel** — rien à configurer : `vercel.json` déclare déjà le framework, la commande de
 compilation, le dossier de sortie, la réécriture des routes et les en-têtes de cache.
 
+À propos de ces en-têtes : tout ce qui est sous `/assets` porte une empreinte de contenu dans son
+nom (Vite s'en charge), donc ces fichiers sont marqués immuables pour un an — c'est ce qui rend la
+deuxième visite immédiate sur une connexion mobile lente. `index.html` est en revanche revalidé à
+chaque fois, sinon un nouveau déploiement n'atteindrait jamais personne.
+
+⚠️ `vercel.json` est du JSON strict et Vercel **refuse toute clé qu'il ne connaît pas** — y compris
+une clé `comment` ajoutée pour documenter. N'écrivez pas de commentaires dans ce fichier : les
+explications vont ici.
+
 1. vercel.com → **Add New… → Project → Import Git Repository** → `Maurimax2/Po`
 2. Laissez tous les réglages proposés tels quels, **Deploy**.
 
