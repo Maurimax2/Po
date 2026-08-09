@@ -303,7 +303,7 @@ function AppSection() {
             {/* Anchored to the physical right in both directions: the screenshot
                 carries its own text on the left, so a logical offset would drop the
                 camera on top of it in the RTL layout. */}
-            <div className="pointer-events-none absolute -right-3 -bottom-12 w-28 sm:-right-7 sm:-bottom-16 sm:w-40 lg:w-44">
+            <div className="pointer-events-none absolute -right-3 -bottom-12 w-28 sm:-right-10 sm:-bottom-14 sm:w-40 lg:-right-16 lg:w-44">
               <CutoutImage
                 name="cam-4g-wifi-double-lentille-ptz"
                 alt={

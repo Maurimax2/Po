@@ -114,7 +114,7 @@ export const fr = {
 
   contactStrip: {
     eyebrow: 'Commander',
-    title: 'Une seule adresse\u202F: WhatsApp',
+    title: 'Une seule adresse\u00A0: WhatsApp',
     lead: "Pas de paiement en ligne, pas de compte à créer. Vous composez votre panier, vous nous l'envoyez sur WhatsApp, nous répondons avec la disponibilité et le prix.",
     cta: 'Ouvrir WhatsApp',
     phoneLabel: 'Téléphone / WhatsApp',
