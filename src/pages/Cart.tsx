@@ -18,11 +18,11 @@ export default function Cart() {
     return (
       <Container className="py-20 sm:py-28">
         <div className="mx-auto max-w-lg text-center">
-          <span className="mx-auto grid h-20 w-20 place-items-center rounded-full border border-trame bg-caisse text-amber">
-            <ApertureMark className="h-9 w-9" spin />
+          <span className="mx-auto grid h-20 w-20 place-items-center rounded-full border border-amber/35 bg-amber-wash text-amber-ink">
+            <ApertureMark className="h-9 w-9" />
           </span>
-          <h1 className="font-display mt-8 text-display font-bold text-white">{t.cart.empty}</h1>
-          <p className="mt-4 text-[15px] leading-relaxed text-sable-dim">{t.cart.emptyText}</p>
+          <h1 className="font-display mt-8 text-display font-bold text-ink">{t.cart.empty}</h1>
+          <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">{t.cart.emptyText}</p>
           <div className="mt-9 flex justify-center">
             <LinkButton to="/catalogue" size="lg">
               {t.cart.emptyCta}
@@ -37,12 +37,12 @@ export default function Cart() {
   return (
     <Container className="py-12 sm:py-16">
       <header className="max-w-2xl">
-        <p className="hud flex items-center gap-2.5 text-amber">
+        <p className="eyebrow flex items-center gap-2.5 text-amber-ink">
           <ApertureMark className="h-3.5 w-3.5" />
           {t.cart.articles(lineCount)}
         </p>
-        <h1 className="font-display mt-4 text-display font-bold text-white">{t.cart.title}</h1>
-        <p className="mt-4 text-[15px] leading-relaxed text-sable-dim">{t.cart.lead}</p>
+        <h1 className="font-display mt-4 text-display font-bold text-ink">{t.cart.title}</h1>
+        <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">{t.cart.lead}</p>
       </header>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_20rem] lg:items-start lg:gap-10">
@@ -54,11 +54,11 @@ export default function Cart() {
             return (
               <li
                 key={product.slug}
-                className="group relative flex gap-4 rounded-xl border border-trame bg-caisse p-3 sm:gap-5 sm:p-4"
+                className="group relative flex gap-4 rounded-xl border border-line bg-surface p-3 sm:gap-5 sm:p-4"
               >
                 <Link
                   to={`/produit/${product.slug}`}
-                  className="relative h-24 w-20 shrink-0 overflow-hidden rounded-lg bg-noir sm:h-28 sm:w-24"
+                  className="relative h-24 w-20 shrink-0 overflow-hidden rounded-lg bg-page sm:h-28 sm:w-24"
                   tabIndex={-1}
                   aria-hidden
                 >
@@ -69,9 +69,9 @@ export default function Cart() {
                 <div className="flex min-w-0 flex-1 flex-col">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      {category && <p className="hud truncate text-sable-faint">{category.name[lang]}</p>}
-                      <h2 className="font-display mt-1.5 text-[15px] leading-snug font-semibold text-white">
-                        <Link to={`/produit/${product.slug}`} className="transition-colors hover:text-amber">
+                      {category && <p className="truncate text-[12px] font-medium text-ink-faint">{category.name[lang]}</p>}
+                      <h2 className="font-display mt-1.5 text-[15px] leading-snug font-semibold text-ink">
+                        <Link to={`/produit/${product.slug}`} className="transition-colors hover:text-amber-ink">
                           {name}
                         </Link>
                       </h2>
@@ -79,7 +79,7 @@ export default function Cart() {
                     <button
                       type="button"
                       onClick={() => remove(product.slug)}
-                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-sable-faint transition-colors hover:bg-noir hover:text-amber"
+                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-ink-faint transition-colors hover:bg-page hover:text-amber-ink"
                       aria-label={t.cart.removeAria(name)}
                     >
                       <CloseIcon className="h-4 w-4" />
@@ -103,22 +103,22 @@ export default function Cart() {
         </ul>
 
         {/* Summary — counts only. There is no money on this page, on purpose. */}
-        <aside className="min-w-0 rounded-xl border border-trame bg-caisse p-6 lg:sticky lg:top-24">
-          <h2 className="hud text-sable-faint">{t.cart.summary}</h2>
+        <aside className="min-w-0 rounded-xl border border-line bg-surface p-6 lg:sticky lg:top-24">
+          <h2 className="text-[13px] font-semibold text-ink-faint">{t.cart.summary}</h2>
           <dl className="mt-5 space-y-3 text-sm">
             <div className="flex items-center justify-between gap-4">
-              <dt className="text-sable-dim">{t.cart.lines}</dt>
-              <dd className="font-mono font-semibold text-white tabular-nums">{lineCount}</dd>
+              <dt className="text-ink-soft">{t.cart.lines}</dt>
+              <dd className="numeric font-semibold text-ink tabular-nums">{lineCount}</dd>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <dt className="text-sable-dim">{t.cart.totalUnits}</dt>
-              <dd className="font-mono font-semibold text-white tabular-nums">{unitCount}</dd>
+              <dt className="text-ink-soft">{t.cart.totalUnits}</dt>
+              <dd className="numeric font-semibold text-ink tabular-nums">{unitCount}</dd>
             </div>
           </dl>
 
-          <div className="mt-6 border-t border-trame pt-6">
-            <p className="hud text-amber">{t.product.priceOnRequest}</p>
-            <p className="mt-2 text-[13px] leading-relaxed text-sable-faint">{t.cart.lead}</p>
+          <div className="mt-6 border-t border-line pt-6">
+            <p className="eyebrow text-amber-ink">{t.product.priceOnRequest}</p>
+            <p className="mt-2 text-[13px] leading-relaxed text-ink-faint">{t.cart.lead}</p>
           </div>
 
           <LinkButton to="/commande" size="lg" className="mt-6 w-full">

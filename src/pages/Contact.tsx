@@ -12,10 +12,10 @@ export default function Contact() {
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-trame">
-        <div className="trame-grid absolute inset-0 opacity-50" aria-hidden />
+      <section className="relative overflow-hidden border-b border-line">
+        <div className="trame-grid absolute inset-0 opacity-40" aria-hidden />
         <div
-          className="absolute inset-0 bg-[radial-gradient(70%_80%_at_20%_0%,rgba(236,131,4,0.10),transparent_70%)]"
+          className="absolute inset-0 bg-[radial-gradient(70%_80%_at_20%_0%,rgba(236,131,4,0.08),transparent_72%)]"
           aria-hidden
         />
         <Container className="relative py-12 sm:py-16">
@@ -25,12 +25,12 @@ export default function Contact() {
 
       <Container className="py-12 sm:py-16">
         <div className="grid gap-6 lg:grid-cols-3">
-          <div className="rounded-xl border border-trame bg-caisse p-6 sm:p-7">
-            <span className="grid h-11 w-11 place-items-center rounded-full border border-amber/30 bg-amber/8 text-amber">
+          <div className="rounded-xl border border-line bg-surface p-6 sm:p-7">
+            <span className="grid h-11 w-11 place-items-center rounded-full border border-amber/30 bg-amber-wash text-amber-ink">
               <PinIcon className="h-5 w-5" />
             </span>
-            <h2 className="font-display mt-5 text-base font-bold text-white">{t.contact.address}</h2>
-            <address className="mt-3 space-y-1 text-sm leading-relaxed text-sable-dim not-italic">
+            <h2 className="font-display mt-5 text-base font-bold text-ink">{t.contact.address}</h2>
+            <address className="mt-3 space-y-1 text-sm leading-relaxed text-ink-soft not-italic">
               {t.contact.addressLines.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -39,29 +39,29 @@ export default function Contact() {
             </address>
           </div>
 
-          <div className="rounded-xl border border-trame bg-caisse p-6 sm:p-7">
-            <span className="grid h-11 w-11 place-items-center rounded-full border border-amber/30 bg-amber/8 text-amber">
+          <div className="rounded-xl border border-line bg-surface p-6 sm:p-7">
+            <span className="grid h-11 w-11 place-items-center rounded-full border border-amber/30 bg-amber-wash text-amber-ink">
               <ClockIcon className="h-5 w-5" />
             </span>
-            <h2 className="font-display mt-5 text-base font-bold text-white">{t.contact.hours}</h2>
+            <h2 className="font-display mt-5 text-base font-bold text-ink">{t.contact.hours}</h2>
             <dl className="mt-3 space-y-2.5 text-sm">
               {t.contact.hoursLines.map((row) => (
                 <div key={row.d}>
-                  <dt className="text-sable">{row.d}</dt>
-                  <dd className="font-mono mt-1 text-[13px] text-sable-dim tabular-nums">{row.h}</dd>
+                  <dt className="text-ink">{row.d}</dt>
+                  <dd className="numeric mt-1 text-[13px] text-ink-soft tabular-nums">{row.h}</dd>
                 </div>
               ))}
             </dl>
           </div>
 
-          <div className="rounded-xl border border-trame bg-caisse p-6 sm:p-7">
-            <span className="grid h-11 w-11 place-items-center rounded-full border border-amber/30 bg-amber/8 text-amber">
+          <div className="rounded-xl border border-line bg-surface p-6 sm:p-7">
+            <span className="grid h-11 w-11 place-items-center rounded-full border border-amber/30 bg-amber-wash text-amber-ink">
               <PhoneIcon className="h-5 w-5" />
             </span>
-            <h2 className="font-display mt-5 text-base font-bold text-white">{t.contact.phone}</h2>
+            <h2 className="font-display mt-5 text-base font-bold text-ink">{t.contact.phone}</h2>
             <a
               href={`tel:${SHOP.phoneHref}`}
-              className="font-mono latin mt-3 block text-lg font-semibold text-white transition-colors hover:text-amber"
+              className="numeric latin mt-3 block text-lg font-semibold text-ink transition-colors hover:text-amber-ink"
             >
               {SHOP.phoneDisplay}
             </a>
@@ -72,7 +72,7 @@ export default function Contact() {
               </ExternalButton>
               <a
                 href={`tel:${SHOP.phoneHref}`}
-                className="hud inline-flex h-11 items-center justify-center rounded-full border border-trame-lift text-sable transition-colors hover:border-amber hover:text-amber"
+                className="eyebrow inline-flex h-11 items-center justify-center rounded-full border border-line-strong text-ink transition-colors hover:border-amber hover:text-amber-ink"
               >
                 {t.contact.callCta}
               </a>
@@ -83,23 +83,23 @@ export default function Contact() {
         {/* Map placeholder — a viewfinder frame rather than a grey box, with a
             link out to Maps. No third-party embed, no tracking script. */}
         <section className="mt-6" aria-labelledby="map-title">
-          <div className="relative overflow-hidden rounded-xl border border-trame bg-caisse">
+          <div className="relative overflow-hidden rounded-xl border border-line bg-surface">
             <div className="trame-grid absolute inset-0 opacity-70" aria-hidden />
             <div
               className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_50%,rgba(236,131,4,0.12),transparent_70%)]"
               aria-hidden
             />
             <div className="relative flex min-h-64 flex-col items-center justify-center gap-4 px-6 py-16 text-center sm:min-h-80">
-              <span className="grid h-16 w-16 place-items-center rounded-full border border-amber/40 bg-noir text-amber">
+              <span className="grid h-16 w-16 place-items-center rounded-full border border-amber/40 bg-page text-amber-ink">
                 <ApertureMark className="h-8 w-8" />
               </span>
-              <h2 id="map-title" className="font-display text-title font-bold text-white">
+              <h2 id="map-title" className="font-display text-title font-bold text-ink">
                 {t.contact.mapPlaceholder}
               </h2>
-              <p className="hud text-sable-faint">
+              <p className="text-[13px] font-semibold text-ink-faint">
                 {SHOP.city} — {SHOP.country}
               </p>
-              <p className="max-w-sm text-[13px] leading-relaxed text-sable-dim">{t.contact.mapNote}</p>
+              <p className="max-w-sm text-[13px] leading-relaxed text-ink-soft">{t.contact.mapNote}</p>
               <ExternalButton href={mapsLink()} variant="outline" size="md" className="mt-2">
                 {t.contact.mapCta}
               </ExternalButton>
@@ -114,17 +114,17 @@ export default function Contact() {
 
         {/* FAQ */}
         <section className="mt-16" aria-labelledby="faq-title">
-          <h2 id="faq-title" className="font-display text-title font-bold text-white">
+          <h2 id="faq-title" className="font-display text-title font-bold text-ink">
             {t.contact.faqTitle}
           </h2>
           <dl className="mt-7 grid gap-4 sm:grid-cols-2">
             {t.contact.faq.map((item) => (
-              <div key={item.q} className="rounded-xl border border-trame bg-caisse p-6">
-                <dt className="font-display flex gap-3 text-[15px] font-bold text-white">
-                  <ApertureMark className="mt-0.5 h-4 w-4 shrink-0 text-amber" />
+              <div key={item.q} className="rounded-xl border border-line bg-surface p-6">
+                <dt className="font-display flex gap-3 text-[15px] font-bold text-ink">
+                  <ApertureMark className="mt-0.5 h-4 w-4 shrink-0 text-amber-ink" />
                   {item.q}
                 </dt>
-                <dd className="mt-3 text-[13px] leading-relaxed text-sable-dim">{item.a}</dd>
+                <dd className="mt-3 text-[13px] leading-relaxed text-ink-soft">{item.a}</dd>
               </div>
             ))}
           </dl>

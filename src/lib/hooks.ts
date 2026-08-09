@@ -44,17 +44,6 @@ export function useScrollLock(locked: boolean) {
   }, [locked]);
 }
 
-/** Live HH:MM:SS for the hero HUD. Ticks once a second, stops when unmounted. */
-export function useClock() {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const id = window.setInterval(() => setNow(new Date()), 1000);
-    return () => window.clearInterval(id);
-  }, []);
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-}
-
 /** Sets document.title without pulling in a helmet library. */
 export function useTitle(title: string) {
   useEffect(() => {

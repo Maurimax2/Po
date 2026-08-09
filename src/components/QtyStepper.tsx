@@ -25,13 +25,13 @@ export function QtyStepper({
 
   return (
     <div
-      className={`inline-flex ${box} items-center rounded-full border border-trame bg-caisse`}
+      className={`inline-flex ${box} items-center rounded-full border border-line bg-surface`}
       role="group"
       aria-label={label ?? t.product.quantity}
     >
       <button
         type="button"
-        className={`${btn} grid shrink-0 place-items-center rounded-full text-sable-dim transition-colors hover:text-amber disabled:opacity-30 disabled:hover:text-sable-dim`}
+        className={`${btn} grid shrink-0 place-items-center rounded-full text-ink-soft transition-colors hover:text-amber-ink disabled:opacity-30 disabled:hover:text-ink-soft`}
         onClick={() => onChange(Math.max(min, value - 1))}
         disabled={value <= min}
         aria-label={t.product.decrease}
@@ -39,7 +39,7 @@ export function QtyStepper({
         <MinusIcon className="h-4 w-4" />
       </button>
       <span
-        className="font-mono w-8 text-center text-sm font-semibold tabular-nums text-white"
+        className="numeric w-8 text-center text-sm font-semibold tabular-nums text-ink"
         aria-live="polite"
         aria-atomic="true"
       >
@@ -47,7 +47,7 @@ export function QtyStepper({
       </span>
       <button
         type="button"
-        className={`${btn} grid shrink-0 place-items-center rounded-full text-sable-dim transition-colors hover:text-amber disabled:opacity-30 disabled:hover:text-sable-dim`}
+        className={`${btn} grid shrink-0 place-items-center rounded-full text-ink-soft transition-colors hover:text-amber-ink disabled:opacity-30 disabled:hover:text-ink-soft`}
         onClick={() => onChange(Math.min(MAX_QTY, value + 1))}
         disabled={value >= MAX_QTY}
         aria-label={t.product.increase}

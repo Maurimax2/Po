@@ -20,7 +20,7 @@ export function Layout() {
       <ScrollToTop />
       <a
         href="#contenu"
-        className="hud sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-100 focus:rounded-full focus:bg-amber focus:px-5 focus:py-3 focus:text-black"
+        className="text-[13px] font-semibold sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-100 focus:rounded-full focus:bg-amber focus:px-5 focus:py-3 focus:text-ink"
       >
         {t.nav.skip}
       </a>

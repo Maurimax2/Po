@@ -47,8 +47,8 @@ export default function ProductPage() {
   if (!product) {
     return (
       <Container className="py-28 text-center">
-        <h1 className="font-display text-display font-bold text-white">{t.product.notFound}</h1>
-        <p className="mx-auto mt-4 max-w-sm text-sm text-sable-dim">{t.product.notFoundText}</p>
+        <h1 className="font-display text-display font-bold text-ink">{t.product.notFound}</h1>
+        <p className="mx-auto mt-4 max-w-sm text-sm text-ink-soft">{t.product.notFoundText}</p>
         <div className="mt-8 flex justify-center">
           <LinkButton to="/catalogue">{t.product.backToCatalogue}</LinkButton>
         </div>
@@ -65,18 +65,18 @@ export default function ProductPage() {
     <>
       {/* Breadcrumb */}
       <Container className="pt-6 pb-2">
-        <nav aria-label={t.nav.breadcrumb} className="hud flex flex-wrap items-center gap-2 text-sable-faint">
-          <Link to="/" className="transition-colors hover:text-amber">
+        <nav aria-label={t.nav.breadcrumb} className="flex flex-wrap items-center gap-2 text-[12.5px] text-ink-faint">
+          <Link to="/" className="transition-colors hover:text-amber-ink">
             {t.nav.home}
           </Link>
           <ChevronIcon className="h-3 w-3 rtl:-scale-x-100" />
-          <Link to="/catalogue" className="transition-colors hover:text-amber">
+          <Link to="/catalogue" className="transition-colors hover:text-amber-ink">
             {t.nav.catalogue}
           </Link>
           {category && (
             <>
               <ChevronIcon className="h-3 w-3 rtl:-scale-x-100" />
-              <Link to={`/catalogue/${category.id}`} className="transition-colors hover:text-amber">
+              <Link to={`/catalogue/${category.id}`} className="transition-colors hover:text-amber-ink">
                 {category.name[lang]}
               </Link>
             </>
@@ -88,8 +88,8 @@ export default function ProductPage() {
         <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
           {/* Gallery */}
           <div>
-            <div className="group relative overflow-hidden rounded-2xl border border-trame bg-caisse p-2">
-              <div className="relative aspect-4/5 overflow-hidden rounded-xl bg-noir">
+            <div className="group relative overflow-hidden rounded-2xl border border-line bg-surface p-2">
+              <div className="relative aspect-4/5 overflow-hidden rounded-xl bg-page">
                 <CardImage
                   key={product.images[shot]}
                   name={product.images[shot]}
@@ -119,7 +119,7 @@ export default function ProductPage() {
                       aria-label={t.product.viewImage(i + 1)}
                       aria-current={shot === i}
                       className={`relative block h-20 w-16 overflow-hidden rounded-lg border transition-colors ${
-                        shot === i ? 'border-amber' : 'border-trame hover:border-trame-lift'
+                        shot === i ? 'border-amber' : 'border-line hover:border-line-strong'
                       }`}
                     >
                       <CardImage
@@ -140,16 +140,16 @@ export default function ProductPage() {
             {category && (
               <Link
                 to={`/catalogue/${category.id}`}
-                className="hud inline-flex items-center gap-2 text-amber transition-colors hover:text-amber-lift"
+                className="eyebrow inline-flex items-center gap-2 text-amber-ink transition-colors hover:text-amber-deep"
               >
                 <ApertureMark className="h-3.5 w-3.5" />
                 {category.name[lang]}
               </Link>
             )}
 
-            <h1 className="font-display mt-4 text-display font-bold text-white text-balance">{name}</h1>
+            <h1 className="font-display mt-4 text-display font-bold text-ink text-balance">{name}</h1>
 
-            <p className="mt-5 text-[15px] leading-relaxed text-sable-dim sm:text-base">
+            <p className="mt-5 text-[15px] leading-relaxed text-ink-soft sm:text-base">
               {product.shortDescription[lang]}
             </p>
 
@@ -184,10 +184,10 @@ export default function ProductPage() {
             </ExternalButton>
 
             {inCart > 0 && (
-              <p className="hud mt-4 flex items-center gap-2 text-sable-faint" role="status">
-                <CheckIcon className="h-3.5 w-3.5 text-amber" />
+              <p className="eyebrow mt-4 flex items-center gap-2 text-ink-faint" role="status">
+                <CheckIcon className="h-3.5 w-3.5 text-amber-ink" />
                 {t.product.inCart} · {t.cart.units(inCart)}
-                <Link to="/panier" className="text-amber underline-offset-4 hover:underline">
+                <Link to="/panier" className="text-amber-ink underline-offset-4 hover:underline">
                   {t.nav.viewCart}
                 </Link>
               </p>
@@ -195,25 +195,25 @@ export default function ProductPage() {
 
             {/* Specs */}
             <section className="mt-12" aria-labelledby="specs-title">
-              <h2 id="specs-title" className="hud flex items-center gap-2.5 text-sable-faint">
-                <span className="h-px w-6 bg-trame-lift" aria-hidden />
+              <h2 id="specs-title" className="eyebrow flex items-center gap-2.5 text-ink-faint">
+                <span className="h-px w-6 bg-line-strong" aria-hidden />
                 {t.product.specs}
               </h2>
-              <dl className="mt-5 overflow-hidden rounded-xl border border-trame">
+              <dl className="mt-5 overflow-hidden rounded-xl border border-line">
                 {product.specs.map((s, i) => (
                   <div
                     key={s.label.fr}
                     className={`grid grid-cols-[minmax(7.5rem,38%)_1fr] gap-4 px-4 py-3.5 text-[13px] sm:px-5 sm:text-sm ${
-                      i % 2 ? 'bg-caisse/40' : 'bg-caisse'
+                      i % 2 ? 'bg-surface/40' : 'bg-surface'
                     }`}
                   >
-                    <dt className="text-sable-faint">{s.label[lang]}</dt>
-                    <dd className="text-sable">{s.value[lang]}</dd>
+                    <dt className="text-ink-faint">{s.label[lang]}</dt>
+                    <dd className="text-ink">{s.value[lang]}</dd>
                   </div>
                 ))}
               </dl>
-              <p className="hud mt-4 text-sable-faint">
-                {t.product.reference} : <span className="latin text-sable-dim">{product.slug}</span>
+              <p className="eyebrow mt-4 text-ink-faint">
+                {t.product.reference} : <span className="latin text-ink-soft">{product.slug}</span>
               </p>
             </section>
           </div>
@@ -222,16 +222,16 @@ export default function ProductPage() {
 
       {/* Related */}
       {related.length > 0 && (
-        <section className="mt-16 border-t border-trame bg-caisse/30" aria-labelledby="related-title">
+        <section className="mt-16 border-t border-line bg-surface/30" aria-labelledby="related-title">
           <Container className="py-16 sm:py-20">
             <div className="flex items-end justify-between gap-6">
-              <h2 id="related-title" className="font-display text-title font-bold text-white">
+              <h2 id="related-title" className="font-display text-title font-bold text-ink">
                 {t.product.related}
               </h2>
               {category && (
                 <Link
                   to={`/catalogue/${category.id}`}
-                  className="hud group flex shrink-0 items-center gap-2 text-amber hover:text-amber-lift"
+                  className="eyebrow group flex shrink-0 items-center gap-2 text-amber-ink hover:text-amber-deep"
                 >
                   {category.name[lang]}
                   <ArrowIcon className="h-3.5 w-3.5 rtl:-scale-x-100" />

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useLang } from '../context/LangContext';
-import { useClock, useReveal, useTitle } from '../lib/hooks';
+import { useReveal, useTitle } from '../lib/hooks';
 import { CATEGORIES, PRODUCTS, STOCK_SHOTS, featuredProducts, productsIn } from '../data/products';
 import { SHOP } from '../data/shop';
 import { generalLink, quoteLink } from '../lib/whatsapp';
-import { ApertureBlades, ApertureMark } from '../components/Aperture';
+import { ApertureMark } from '../components/Aperture';
 import { ProductCard } from '../components/ProductCard';
 import {
   Container,
@@ -18,20 +18,19 @@ import {
 import { ArrowIcon, CATEGORY_ICONS, ChevronIcon, TRUST_ICONS, WhatsAppIcon } from '../components/Icons';
 
 /* ────────────────────────────────────────────────────────────────────────────
-   HERO — the one orchestrated moment.
-   A live-feed panel: HUD bar with channel and running timestamp, the shop's
-   own shelf photo as the feed, an aperture that swings open over it on load,
-   corner brackets, and the flagship camera stepping out of the frame.
+   HERO
+   A framed photograph of the shop's own shelves, captioned like a catalogue
+   plate, with the flagship camera stepping out of the frame in front of it.
+   No overlays, no running clock, nothing blinking.
 ──────────────────────────────────────────────────────────────────────────── */
 function Hero() {
   const { t, lang } = useLang();
-  const clock = useClock();
 
   return (
-    <section className="relative overflow-hidden border-b border-trame">
-      <div className="trame-grid absolute inset-0 opacity-60" aria-hidden />
+    <section className="relative overflow-hidden border-b border-line">
+      <div className="trame-grid absolute inset-0 opacity-40" aria-hidden />
       <div
-        className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_0%,rgba(236,131,4,0.10),transparent_70%)]"
+        className="absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_0%,rgba(236,131,4,0.07),transparent_72%)]"
         aria-hidden
       />
 
@@ -39,18 +38,18 @@ function Hero() {
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
           {/* — Text column — */}
           <div className="anim-rise order-2 lg:order-1">
-            <p className="hud flex items-center gap-2.5 text-amber">
-              <ApertureMark className="h-3.5 w-3.5" spin />
+            <p className="eyebrow flex items-center gap-2.5 text-amber-ink">
+              <ApertureMark className="h-4 w-4" />
               {t.hero.eyebrow}
             </p>
 
-            <h1 className="font-display mt-6 text-hero font-extrabold text-white text-balance">
+            <h1 className="font-display mt-5 text-hero font-bold text-ink text-balance">
               <span className="block">{t.hero.title1}</span>
               <span className="block">{t.hero.title2}</span>
-              <span className="block text-amber">{t.hero.title3}</span>
+              <span className="block text-amber-deep">{t.hero.title3}</span>
             </h1>
 
-            <p className="mt-7 max-w-lg text-[15px] leading-relaxed text-sable-dim sm:text-base">{t.hero.lead}</p>
+            <p className="mt-7 max-w-lg text-[15px] leading-relaxed text-ink-soft sm:text-base">{t.hero.lead}</p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <LinkButton to="/catalogue" size="lg">
@@ -63,63 +62,41 @@ function Hero() {
               </ExternalButton>
             </div>
 
-            <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-trame pt-7">
+            <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-line pt-7">
               {[
                 { n: `${PRODUCTS.length}`, l: lang === 'fr' ? 'Références en ligne' : 'صنفًا على الموقع' },
                 { n: `${productsIn('videosurveillance').length}`, l: lang === 'fr' ? 'Modèles de caméras' : 'موديل كاميرا' },
                 { n: `${new Date().getFullYear() - SHOP.foundedYear}+`, l: lang === 'fr' ? "Années d'activité" : 'سنوات من العمل' },
               ].map((s) => (
                 <div key={s.l}>
-                  <dt className="font-display text-2xl font-bold text-amber tabular-nums sm:text-3xl">{s.n}</dt>
-                  <dd className="mt-1.5 text-[11px] leading-tight text-sable-faint sm:text-xs">{s.l}</dd>
+                  <dt className="font-display numeric text-2xl font-bold text-ink sm:text-3xl">{s.n}</dt>
+                  <dd className="mt-1.5 text-[11px] leading-tight text-ink-faint sm:text-xs">{s.l}</dd>
                 </div>
               ))}
             </dl>
           </div>
 
-          {/* — Feed panel — */}
+          {/* — Framed plate — */}
           <div className="relative order-1 lg:order-2">
-            <div className="relative rounded-2xl border border-trame bg-caisse p-2 shadow-[0_40px_100px_-40px_rgba(0,0,0,.9)] sm:p-3">
-              {/* HUD bar */}
-              <div className="flex items-center justify-between gap-3 px-2 pt-1 pb-2.5 sm:px-2.5">
-                <div className="hud flex items-center gap-2.5 text-sable-faint">
-                  <span className="anim-rec inline-block h-2 w-2 rounded-full bg-amber" />
-                  <span className="text-amber">{t.hero.live}</span>
-                  <span className="hidden sm:inline">·</span>
-                  <span className="hidden sm:inline">{t.hero.channel}</span>
-                </div>
-                <span className="font-mono text-[11px] tabular-nums text-sable-faint" aria-hidden>
-                  {clock}
-                </span>
-              </div>
-
-              {/* Feed */}
-              <div className="group relative aspect-16/10 overflow-hidden rounded-xl bg-noir">
-                <div className="anim-iris h-full w-full">
-                  <WideImage
-                    name="dahua-5mp-dual-light-stock"
-                    alt={t.hero.caption}
-                    eager
-                    sizes="(min-width: 1024px) 52vw, 94vw"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <ApertureBlades className="iris-overlay pointer-events-none absolute inset-0 h-full w-full" />
-                <div
-                  className="anim-scan pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber/70 to-transparent"
-                  aria-hidden
+            <div className="group relative rounded-xl border border-line bg-page p-2.5 shadow-[0_24px_60px_-32px_rgba(23,19,15,.35)] sm:p-3">
+              <div className="relative aspect-16/10 overflow-hidden rounded-lg bg-surface">
+                <WideImage
+                  name="dahua-5mp-dual-light-stock"
+                  alt={t.hero.caption}
+                  eager
+                  sizes="(min-width: 1024px) 52vw, 94vw"
+                  className="h-full w-full object-cover"
                 />
                 <Corners />
               </div>
 
-              {/* The caption sits under the frame, aligned away from the camera
-                  cut-out, so nothing is ever printed over a photo. */}
-              <p className="hud ps-28 pe-2 pt-3 pb-1 text-end text-sable-faint sm:ps-44 sm:pe-2.5 lg:ps-56">
+              {/* Captioned like a catalogue plate, padded clear of the camera. */}
+              <p className="ps-28 pe-1 pt-3 pb-1 text-end text-[12px] text-ink-faint sm:ps-44 lg:ps-56">
                 {t.hero.caption}
               </p>
             </div>
 
-            {/* The camera itself, stepping out of the frame it films. */}
+            {/* The camera itself, stepping out in front of the shelf it watches. */}
             <div className="pointer-events-none absolute -bottom-7 -start-3 w-26 sm:-bottom-12 sm:-start-8 sm:w-40 lg:-start-14 lg:w-52">
               <CutoutImage
                 name="cam-solaire-ptz-4-lentilles"
@@ -130,7 +107,7 @@ function Hero() {
                 }
                 eager
                 sizes="(min-width: 1024px) 210px, 150px"
-                className="h-auto w-full drop-shadow-[0_30px_50px_rgba(0,0,0,.8)]"
+                className="h-auto w-full drop-shadow-[0_18px_28px_rgba(23,19,15,.28)]"
               />
             </div>
           </div>
@@ -146,7 +123,7 @@ function TrustStrip() {
   const { ref, shown } = useReveal();
 
   return (
-    <section className="border-b border-trame bg-caisse/40" aria-labelledby="trust-title">
+    <section className="border-b border-line bg-surface" aria-labelledby="trust-title">
       <Container className="py-14 sm:py-16">
         <h2 id="trust-title" className="sr-only">
           {t.trust.title}
@@ -156,12 +133,12 @@ function TrustStrip() {
             const Icon = TRUST_ICONS[i];
             return (
               <div key={item.title} className="flex gap-4">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-amber/30 bg-amber/8 text-amber">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-amber/35 bg-page text-amber-ink">
                   <Icon className="h-5 w-5" />
                 </span>
                 <div>
-                  <h3 className="font-display text-base font-bold text-white">{item.title}</h3>
-                  <p className="mt-2 text-[13px] leading-relaxed text-sable-dim">{item.text}</p>
+                  <h3 className="font-display text-base font-bold text-ink">{item.title}</h3>
+                  <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">{item.text}</p>
                 </div>
               </div>
             );
@@ -189,7 +166,7 @@ function CategoryWall() {
           />
           <Link
             to="/catalogue"
-            className="hud group hidden items-center gap-2 text-amber transition-colors hover:text-amber-lift sm:flex"
+            className="group hidden items-center gap-2 text-[13px] font-semibold text-amber-ink transition-colors hover:text-ink sm:flex"
           >
             {t.categories.seeAll}
             <ChevronIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
@@ -214,30 +191,30 @@ function CategoryWall() {
               >
                 <Link
                   to={`/catalogue/${c.id}`}
-                  className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-xl border border-trame bg-caisse p-6 transition-colors duration-300 hover:border-amber/50 sm:p-7 ${
+                  className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-xl border border-line bg-page p-6 transition-all duration-300 hover:border-line-strong hover:shadow-[0_14px_40px_-24px_rgba(23,19,15,.35)] sm:p-7 ${
                     flagship ? 'min-h-56' : 'min-h-40'
                   }`}
                 >
                   <div
-                    className="absolute inset-0 bg-[radial-gradient(120%_100%_at_0%_0%,rgba(236,131,4,0.09),transparent_60%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    className="absolute inset-0 bg-[radial-gradient(120%_100%_at_0%_0%,rgba(236,131,4,0.08),transparent_62%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                     aria-hidden
                   />
                   <div className="relative flex items-start justify-between gap-4">
-                    <span className="grid h-12 w-12 place-items-center rounded-lg border border-trame bg-noir text-amber transition-colors group-hover:border-amber/40">
+                    <span className="grid h-12 w-12 place-items-center rounded-lg border border-line bg-surface text-amber-ink transition-colors group-hover:border-amber/50">
                       <Icon className="h-6 w-6" />
                     </span>
-                    <span className="hud text-sable-faint">
-                      {t.categories.channel} {String(i + 1).padStart(2, '0')}
+                    <span className="numeric text-[13px] font-semibold text-ink-faint">
+                      {String(i + 1).padStart(2, '0')}
                     </span>
                   </div>
 
                   <div className="relative mt-8">
-                    <p className="hud text-amber">{c.tagline[lang]}</p>
-                    <h3 className="font-display mt-2.5 text-title font-bold text-white">{c.name[lang]}</h3>
+                    <p className="eyebrow text-amber-ink">{c.tagline[lang]}</p>
+                    <h3 className="font-display mt-2.5 text-title font-bold text-ink">{c.name[lang]}</h3>
                     {flagship && (
-                      <p className="mt-3 max-w-md text-[13px] leading-relaxed text-sable-dim">{c.description[lang]}</p>
+                      <p className="mt-3 max-w-md text-[13px] leading-relaxed text-ink-soft">{c.description[lang]}</p>
                     )}
-                    <p className="hud mt-4 flex items-center gap-2 text-sable-faint transition-colors group-hover:text-amber">
+                    <p className="mt-4 flex items-center gap-2 text-[13px] font-semibold text-ink-faint transition-colors group-hover:text-amber-ink">
                       {t.categories.productCount(count)}
                       <ChevronIcon className="h-3 w-3 transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
                     </p>
@@ -259,7 +236,7 @@ function Featured() {
   const items = featuredProducts().slice(0, 8);
 
   return (
-    <section className="border-y border-trame bg-caisse/30" aria-labelledby="featured-title">
+    <section className="border-y border-line bg-surface" aria-labelledby="featured-title">
       <Container className="py-20 sm:py-24">
         <SectionHeading id="featured-title" eyebrow={t.featured.eyebrow} title={t.featured.title} lead={t.featured.lead} />
         <div ref={ref} data-shown={shown} className="reveal mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -288,8 +265,8 @@ function AppSection() {
       <Container className="py-20 sm:py-24">
         <div ref={ref} data-shown={shown} className="reveal grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="relative order-2 lg:order-1">
-            <div className="group relative overflow-hidden rounded-2xl border border-trame bg-caisse p-2">
-              <div className="relative aspect-16/10 overflow-hidden rounded-xl">
+            <div className="group relative overflow-hidden rounded-xl border border-line bg-page p-2.5 shadow-[0_24px_60px_-32px_rgba(23,19,15,.3)]">
+              <div className="relative aspect-16/10 overflow-hidden rounded-lg bg-surface">
                 <WideImage
                   name="app-controle-ptz-smartphone"
                   alt={t.app.imageAlt}
@@ -312,7 +289,7 @@ function AppSection() {
                     : 'كاميرا PTZ بشريحة 4G بعدستين تُدار من الهاتف'
                 }
                 sizes="(min-width: 1024px) 180px, 130px"
-                className="h-auto w-full drop-shadow-[0_24px_44px_rgba(0,0,0,.8)]"
+                className="h-auto w-full drop-shadow-[0_16px_26px_rgba(23,19,15,.28)]"
               />
             </div>
           </div>
@@ -321,8 +298,8 @@ function AppSection() {
             <SectionHeading id="app-title" eyebrow={t.app.eyebrow} title={t.app.title} lead={t.app.lead} />
             <ul className="mt-8 space-y-4">
               {t.app.bullets.map((b) => (
-                <li key={b} className="flex gap-3.5 text-[14px] leading-relaxed text-sable">
-                  <ApertureMark className="mt-0.5 h-4 w-4 shrink-0 text-amber" />
+                <li key={b} className="flex gap-3.5 text-[14px] leading-relaxed text-ink">
+                  <ApertureMark className="mt-0.5 h-4 w-4 shrink-0 text-amber-ink" />
                   {b}
                 </li>
               ))}
@@ -346,7 +323,7 @@ function StockProof() {
   const { ref, shown } = useReveal<HTMLUListElement>();
 
   return (
-    <section className="border-y border-trame bg-noir" aria-labelledby="stock-title">
+    <section className="border-y border-line bg-page" aria-labelledby="stock-title">
       <Container className="py-20 sm:py-24">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading id="stock-title" eyebrow={t.stock.eyebrow} title={t.stock.title} lead={t.stock.lead} />
@@ -362,8 +339,8 @@ function StockProof() {
           className="reveal mt-12 grid gap-4 sm:grid-cols-2 lg:auto-rows-fr lg:grid-cols-3"
         >
           {STOCK_SHOTS.map((shot) => (
-            <li key={shot.image} className="group relative overflow-hidden rounded-xl border border-trame bg-caisse">
-              <div className="relative aspect-16/10 overflow-hidden">
+            <li key={shot.image} className="group overflow-hidden rounded-xl border border-line bg-page">
+              <div className="relative aspect-16/10 overflow-hidden bg-surface">
                 <WideImage
                   name={shot.image}
                   alt={shot.caption[lang]}
@@ -371,10 +348,11 @@ function StockProof() {
                   className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-105"
                 />
                 <Corners subtle />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-noir via-noir/85 to-transparent px-4 pt-16 pb-4">
-                  <p className="text-[12px] leading-snug font-medium text-sable">{shot.caption[lang]}</p>
-                </div>
               </div>
+              {/* The caption sits under the photograph, not printed over it. */}
+              <p className="border-t border-line px-4 py-3 text-[12.5px] leading-snug text-ink-soft">
+                {shot.caption[lang]}
+              </p>
             </li>
           ))}
         </ul>
@@ -389,19 +367,19 @@ function ServiceSection() {
   const { ref, shown } = useReveal();
 
   return (
-    <section className="bg-sable text-noir" aria-labelledby="service-title">
+    <section className="border-y border-line bg-amber-wash" aria-labelledby="service-title">
       <Container className="py-20 sm:py-28">
         <div ref={ref} data-shown={shown} className="reveal grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div>
-            <p className="hud flex items-center gap-2.5 text-amber-deep">
-              <ApertureMark className="h-3.5 w-3.5" />
+            <p className="eyebrow flex items-center gap-2.5 text-amber-ink">
+              <ApertureMark className="h-4 w-4" />
               {t.service.eyebrow}
             </p>
-            <h2 id="service-title" className="font-display mt-4 text-display font-bold text-noir text-balance">
+            <h2 id="service-title" className="font-display mt-3.5 text-display font-bold text-ink text-balance">
               {t.service.title}
             </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-noir/70 sm:text-base">{t.service.lead}</p>
-            <ExternalButton href={quoteLink(lang)} size="lg" className="mt-9 bg-noir text-sable hover:bg-noir/85">
+            <p className="mt-5 text-[15px] leading-relaxed text-ink-soft sm:text-base">{t.service.lead}</p>
+            <ExternalButton href={quoteLink(lang)} variant="solid" size="lg" className="mt-9">
               <WhatsAppIcon className="h-4 w-4" />
               {t.service.cta}
             </ExternalButton>
@@ -411,14 +389,14 @@ function ServiceSection() {
             {t.service.steps.map((step, i) => (
               <li key={step.title} className="relative flex gap-5 pb-8 last:pb-0">
                 {i < t.service.steps.length - 1 && (
-                  <span className="absolute start-[19px] top-11 bottom-1 w-px bg-noir/15" aria-hidden />
+                  <span className="absolute start-[19px] top-11 bottom-1 w-px bg-amber/30" aria-hidden />
                 )}
-                <span className="font-mono relative z-10 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-noir/20 bg-sable text-[12px] font-semibold text-noir">
+                <span className="numeric relative z-10 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-amber/40 bg-page text-[12px] font-semibold text-amber-ink">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div className="pt-1.5">
-                  <h3 className="font-display text-base font-bold text-noir">{step.title}</h3>
-                  <p className="mt-1.5 text-[14px] leading-relaxed text-noir/65">{step.text}</p>
+                  <h3 className="font-display text-base font-bold text-page">{step.title}</h3>
+                  <p className="mt-1.5 text-[14px] leading-relaxed text-page/65">{step.text}</p>
                 </div>
               </li>
             ))}
@@ -434,21 +412,21 @@ function ContactStrip() {
   const { t, lang } = useLang();
 
   return (
-    <section className="relative overflow-hidden bg-noir" aria-labelledby="order-title">
-      <div className="trame-grid absolute inset-0 opacity-50" aria-hidden />
+    <section className="relative overflow-hidden bg-page" aria-labelledby="order-title">
+      <div className="trame-grid absolute inset-0 opacity-40" aria-hidden />
       <div
-        className="absolute inset-0 bg-[radial-gradient(70%_100%_at_50%_100%,rgba(236,131,4,0.14),transparent_70%)]"
+        className="absolute inset-0 bg-[radial-gradient(70%_100%_at_50%_100%,rgba(236,131,4,0.10),transparent_72%)]"
         aria-hidden
       />
       <Container className="relative py-20 text-center sm:py-24">
-        <p className="hud flex items-center justify-center gap-2.5 text-amber">
-          <ApertureMark className="h-3.5 w-3.5" />
+        <p className="eyebrow flex items-center justify-center gap-2.5 text-amber-ink">
+          <ApertureMark className="h-4 w-4" />
           {t.contactStrip.eyebrow}
         </p>
-        <h2 id="order-title" className="font-display mx-auto mt-4 max-w-2xl text-display font-bold text-white text-balance">
+        <h2 id="order-title" className="font-display mx-auto mt-4 max-w-2xl text-display font-bold text-ink text-balance">
           {t.contactStrip.title}
         </h2>
-        <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-sable-dim">{t.contactStrip.lead}</p>
+        <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-ink-soft">{t.contactStrip.lead}</p>
 
         <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <ExternalButton href={generalLink(lang)} size="lg">
@@ -457,7 +435,7 @@ function ContactStrip() {
           </ExternalButton>
           <a
             href={`tel:${SHOP.phoneHref}`}
-            className="font-mono latin text-lg font-semibold text-white transition-colors hover:text-amber sm:text-xl"
+            className="numeric latin text-lg font-bold text-ink transition-colors hover:text-amber-ink sm:text-xl"
           >
             {SHOP.phoneDisplay}
           </a>

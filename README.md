@@ -1,7 +1,8 @@
 # Basma — بصمة للخدمات العامة
 
-Site vitrine bilingue (français / arabe) pour **Basma pour les services publics**, magasin de
-vidéosurveillance et d'équipement électronique à Nouakchott, Mauritanie.
+Site vitrine bilingue (**arabe par défaut**, français en second) pour **بصمة للخدمات العامة /
+Basma pour les services publics**, magasin de vidéosurveillance et d'équipement électronique à
+Nouakchott, Mauritanie.
 
 Site **100 % statique** : aucun serveur, aucune base de données, aucune clé d'API, aucune variable
 d'environnement. Le dossier `dist/` produit par la compilation se dépose tel quel sur Netlify,
@@ -84,10 +85,10 @@ npm run images
 
 Le script `scripts/optimize-images.mjs` produit automatiquement, pour chaque photo :
 
-- trois largeurs (400 / 720 / 1080 px) en WebP, au format 4:5, sur un fond sombre uniforme,
-- la même photo floutée et assombrie en arrière-plan, pour que les photos de rayon et les visuels
+- trois largeurs (400 / 720 / 1080 px) en WebP, au format 4:5, sur un fond clair uniforme,
+- la même photo floutée et éclaircie en arrière-plan, pour que les photos de rayon et les visuels
   fournisseurs se ressemblent dans la grille,
-- un vignettage discret, cohérent avec le motif « viseur » du site.
+- un fondu des bords, pour que la photo se pose dans la carte sans y dessiner un rectangle.
 
 **3. Ajoutez l'entrée** dans `src/data/products.ts` :
 
@@ -128,17 +129,24 @@ d'accueil se mettent à jour tout seuls.
 
 ## Traductions
 
-Tout le texte de l'interface est dans **`src/i18n/index.ts`**, en deux objets : `fr` (par défaut) et
-`ar`. Pas de bibliothèque i18n. L'objet `ar` est typé d'après `fr` : si vous ajoutez une clé d'un
+Tout le texte de l'interface est dans **`src/i18n/index.ts`**, en deux objets : `ar` (langue par
+défaut du site) et `fr`. Pas de bibliothèque i18n. L'objet `ar` est typé d'après `fr` : si vous ajoutez une clé d'un
 côté sans l'autre, **la compilation échoue** — les deux langues ne peuvent pas se désynchroniser.
 
 Le texte des produits n'est pas dans ce fichier : il vit à côté de chaque produit dans
 `src/data/products.ts`.
 
-Le passage en arabe applique `dir="rtl"` sur `<html>` et retourne toute la mise en page (le CSS
-utilise des propriétés logiques : `ms-`, `me-`, `ps-`, `pe-`, `start-`, `end-`), change la police
-pour **Tajawal**, et bascule le message WhatsApp en arabe. Le choix est mémorisé dans
-`localStorage`.
+**L'arabe est la langue par défaut.** `index.html` est déjà servi en `lang="ar" dir="rtl"`, donc la
+première page s'affiche en arabe et de droite à gauche sans clignotement. Un visiteur dont le
+navigateur est en français reçoit le français à la première visite ; tous les autres arrivent en
+arabe. Le choix fait avec le bouton de l'en-tête est ensuite mémorisé dans `localStorage`.
+
+Le passage d'une langue à l'autre retourne toute la mise en page — le CSS n'utilise que des
+propriétés logiques (`ms-`, `me-`, `ps-`, `pe-`, `start-`, `end-`) — change la police pour la coupe
+arabe, et bascule le message WhatsApp dans l'autre langue.
+
+**Pour changer la langue par défaut**, modifiez `initialLang()` dans
+`src/context/LangContext.tsx` et l'attribut `lang`/`dir` de `<html>` dans `index.html`.
 
 ---
 
@@ -154,7 +162,7 @@ scripts/
 src/
   assets/fonts/                 polices auto-hébergées (aucun appel CDN à l'exécution)
   assets/generated/             sortie du pipeline images — régénérée, non versionnée
-  components/                   Header, Footer, ProductCard, Aperture (le motif signature), ui.tsx
+  components/                   Header, Footer, ProductCard, Aperture (la marque au diaphragme), ui.tsx
   context/                      CartContext (panier + localStorage), LangContext (langue + RTL)
   data/products.ts              LE CATALOGUE
   data/shop.ts                  numéro WhatsApp, adresse, coordonnées
@@ -170,10 +178,12 @@ src/
 
 - **Vite + React + TypeScript + Tailwind CSS v4.** Aucune bibliothèque de composants : tout est
   écrit ici, il n'y a rien à désapprendre pour reprendre le code.
-- **Polices auto-hébergées** (Bricolage Grotesque, Instrument Sans, JetBrains Mono, Tajawal). Le
-  site ne fait **aucune requête vers un tiers** à l'exécution : rien à charger depuis un CDN sur une
-  connexion mobile mauritanienne. La police arabe est délimitée par `unicode-range` : un visiteur
-  francophone ne la télécharge jamais.
+- **Typographie : IBM Plex, auto-hébergée.** Une seule superfamille pour les deux écritures —
+  *IBM Plex Sans Arabic* pour l'arabe, *IBM Plex Sans* pour le texte latin et *IBM Plex Sans
+  Condensed* pour les titres. L'arabe étant la langue principale, c'est la coupe arabe qui mène et
+  les coupes latines qui l'accompagnent, et non l'inverse. Le site ne fait **aucune requête vers un
+  tiers** à l'exécution. Chaque fichier est délimité par `unicode-range` : un visiteur francophone
+  ne télécharge jamais l'arabe, et réciproquement.
 - **Images traitées à la compilation**, jamais à l'affichage. Les sources font jusqu'à 2560 px ;
   ce qui part sur le réseau fait 400 à 1080 px en WebP. Chaque `<img>` porte ses dimensions et un
   `srcset`, donc la mise en page ne bouge pas pendant le chargement et le navigateur choisit la
@@ -189,11 +199,19 @@ src/
 
 ---
 
-## Le motif signature
+## Le parti pris visuel
 
-Le logo de Basma est une empreinte digitale qui se referme en diaphragme d'objectif. Tout le design
-part de là : un diaphragme à six lames qui s'ouvre une fois au chargement sur la page d'accueil,
-des équerres de cadrage autour de chaque image qui se resserrent au survol, une barre d'état de
-type moniteur (`● EN DIRECT · CAM 01` + horloge), et des rayons numérotés `CH 01`–`CH 06`.
-L'ambre `#EC8304` est prélevé sur le logo et n'est utilisé que pour l'accent — jamais comme
-décoration.
+Le logo de Basma est une empreinte digitale qui se referme en diaphragme d'objectif. Ce diaphragme
+revient comme marque de repère avant chaque titre de section, dans le panier vide et sur le plan —
+en trait, immobile. Les images sont cadrées par quatre équerres d'angle, comme une planche de
+catalogue, qui ne prennent la couleur d'accent qu'au survol.
+
+Le site est **clair** : blanc pour le fond principal, un sable chaud `#FAF7F2` pour les bandes
+alternées, et l'encre `#17130F`. L'ambre `#EC8304` du logo ne descend qu'à 2,6:1 de contraste sur
+blanc : il sert donc d'**aplat** (avec du texte sombre par-dessus) et jamais de couleur de petit
+texte — c'est le rôle de sa version foncée `#96540A`.
+
+Les photos du magasin sont toutes traitées de la même façon à la compilation : contenues sur une
+toile 4:5 posée sur une version floutée et éclaircie d'elles-mêmes, puis fondues sur les bords.
+Une photo de rayon prise au téléphone et un visuel fournisseur se retrouvent ainsi dans le même
+cadre, et la grille lit comme un inventaire tenu, pas comme un assemblage.

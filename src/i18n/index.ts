@@ -15,6 +15,9 @@ export const fr = {
     dir: 'ltr',
     label: 'Français',
     switchTo: 'العربية',
+    /* Narrow screens: "Français" is wide enough to push the header off a
+       360px viewport, so the toggle collapses to a two-character label. */
+    switchToShort: 'ع',
     switchToAria: "Passer le site à l'arabe",
   },
 
@@ -40,8 +43,6 @@ export const fr = {
   },
 
   hero: {
-    channel: 'CAM 01',
-    live: 'EN DIRECT',
     eyebrow: 'Nouakchott — Mauritanie',
     title1: 'On ne protège',
     title2: 'que ce que',
@@ -69,7 +70,6 @@ export const fr = {
     lead: "La vidéosurveillance est notre métier principal — c'est là que nous avons le plus de stock et le plus d'expérience. Le reste suit la maison mauritanienne : la télé, le son, le courant, la chaleur.",
     seeAll: 'Tout le catalogue',
     productCount: (n: number) => (n > 1 ? `${n} produits` : `${n} produit`),
-    channel: 'CH',
   },
 
   featured: {
@@ -313,6 +313,7 @@ export const ar: Dict = {
     dir: 'rtl',
     label: 'العربية',
     switchTo: 'Français',
+    switchToShort: 'FR',
     switchToAria: 'تحويل الموقع إلى الفرنسية',
   },
 
@@ -338,8 +339,6 @@ export const ar: Dict = {
   },
 
   hero: {
-    channel: 'كاميرا 01',
-    live: 'بث مباشر',
     eyebrow: 'نواكشوط — موريتانيا',
     title1: 'لا تحمي',
     title2: 'إلا ما',
@@ -367,7 +366,6 @@ export const ar: Dict = {
     lead: 'كاميرات المراقبة هي تخصّصنا الأول — فيها أكبر مخزون وأطول خبرة. وبقية الأقسام تتبع حاجة البيت الموريتاني: الشاشة، والصوت، والكهرباء، والحرّ.',
     seeAll: 'كل المنتجات',
     productCount: (n: number) => (n > 1 ? `${n} منتجات` : `منتج واحد`),
-    channel: 'قناة',
   },
 
   featured: {

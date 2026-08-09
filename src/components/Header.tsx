@@ -36,24 +36,23 @@ export function Header() {
   }, [open]);
 
   const navLink = ({ isActive }: { isActive: boolean }) =>
-    `relative py-2 text-sm font-medium transition-colors ${
-      isActive ? 'text-amber' : 'text-sable-dim hover:text-sable'
+    `relative py-2 text-sm font-semibold transition-colors ${
+      isActive ? 'text-amber-ink' : 'text-ink-soft hover:text-ink'
     }`;
 
   return (
     <>
       {/* Utility strip — the phone number is the single most useful thing here. */}
-      <div className="hidden border-b border-trame/70 bg-noir md:block">
+      <div className="hidden border-b border-line bg-surface md:block">
         <Container className="flex h-9 items-center justify-between">
-          <p className="hud flex items-center gap-2 text-sable-faint">
-            <span className="anim-rec inline-block h-1.5 w-1.5 rounded-full bg-amber" />
+          <p className="text-[12.5px] text-ink-faint">
             {SHOP.city} — {SHOP.country}
           </p>
-          <div className="hud flex items-center gap-5 text-sable-faint">
+          <div className="flex items-center gap-5 text-[12.5px] text-ink-faint">
             <span>{t.footer.noPrice}</span>
             <a
               href={`tel:${SHOP.phoneHref}`}
-              className="latin flex items-center gap-2 text-sable transition-colors hover:text-amber"
+              className="latin numeric font-semibold text-ink transition-colors hover:text-amber-ink"
             >
               {SHOP.phoneDisplay}
             </a>
@@ -63,7 +62,7 @@ export function Header() {
 
       <header
         className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
-          scrolled ? 'border-trame bg-noir/85 backdrop-blur-xl' : 'border-transparent bg-noir'
+          scrolled ? 'border-line bg-page/90 backdrop-blur-xl' : 'border-line/60 bg-page'
         }`}
       >
         <Container className="flex h-16 items-center justify-between gap-4 sm:h-18">
@@ -78,10 +77,10 @@ export function Header() {
               fetchPriority="high"
             />
             <span className="flex flex-col leading-none">
-              <span className="font-display text-lg font-extrabold tracking-tight text-white sm:text-xl">
+              <span className="font-display text-xl font-bold tracking-tight text-ink sm:text-2xl">
                 {t.brand.name}
               </span>
-              <span className="hud mt-1 hidden text-sable-faint sm:block">
+              <span className="mt-1 hidden text-[11.5px] text-ink-faint sm:block">
                 {lang === 'fr' ? 'Services publics' : 'للخدمات العامة'}
               </span>
             </span>
@@ -103,11 +102,12 @@ export function Header() {
             <button
               type="button"
               onClick={toggle}
-              className="hud h-10 rounded-full border border-trame px-3 text-sable-dim transition-colors hover:border-amber hover:text-amber"
+              className="h-10 rounded-full border border-line-strong px-3.5 text-[13px] font-semibold text-ink-soft transition-colors hover:border-ink hover:text-ink"
               aria-label={t.meta.switchToAria}
               lang={lang === 'fr' ? 'ar' : 'fr'}
             >
-              {t.meta.switchTo}
+              <span className="sm:hidden">{t.meta.switchToShort}</span>
+              <span className="hidden sm:inline">{t.meta.switchTo}</span>
             </button>
 
             <ExternalButton
@@ -123,12 +123,12 @@ export function Header() {
 
             <Link
               to="/panier"
-              className="relative grid h-10 w-10 place-items-center rounded-full border border-trame text-sable transition-colors hover:border-amber hover:text-amber"
+              className="relative grid h-10 w-10 place-items-center rounded-full border border-line-strong text-ink transition-colors hover:border-ink hover:bg-surface"
               aria-label={unitCount > 0 ? t.a11y.cartCount(unitCount) : t.a11y.cartEmpty}
             >
               <CartIcon className="h-[18px] w-[18px]" />
               {unitCount > 0 && (
-                <span className="font-mono absolute -end-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-amber px-1 text-[10px] font-bold text-black tabular-nums">
+                <span className="numeric absolute -end-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-amber px-1 text-[10px] font-bold text-ink">
                   {unitCount > 99 ? '99+' : unitCount}
                 </span>
               )}
@@ -137,7 +137,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="grid h-10 w-10 place-items-center rounded-full border border-trame text-sable transition-colors hover:border-amber hover:text-amber lg:hidden"
+              className="grid h-10 w-10 place-items-center rounded-full border border-line-strong text-ink transition-colors hover:border-ink hover:bg-surface lg:hidden"
               aria-label={t.nav.openMenu}
               aria-expanded={open}
             >
@@ -151,14 +151,14 @@ export function Header() {
           catalogue is one tap away instead of two. */}
       {open && (
         <div className="fixed inset-0 z-60 lg:hidden" role="dialog" aria-modal="true" aria-label={t.nav.menu}>
-          <div className="absolute inset-0 bg-noir/95 backdrop-blur-md" onClick={() => setOpen(false)} />
+          <div className="absolute inset-0 bg-page" onClick={() => setOpen(false)} />
           <div className="anim-rise relative flex h-full flex-col overflow-y-auto">
             <Container className="flex h-16 shrink-0 items-center justify-between">
-              <span className="hud text-sable-faint">{t.nav.menu}</span>
+              <span className="text-[13px] font-semibold text-ink-faint">{t.nav.menu}</span>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="grid h-10 w-10 place-items-center rounded-full border border-trame text-sable"
+                className="grid h-10 w-10 place-items-center rounded-full border border-line-strong text-ink"
                 aria-label={t.nav.closeMenu}
                 autoFocus
               >
@@ -179,8 +179,8 @@ export function Header() {
                     to={item.to}
                     end={item.to === '/'}
                     className={({ isActive }) =>
-                      `font-display border-b border-trame py-4 text-2xl font-bold ${
-                        isActive ? 'text-amber' : 'text-white'
+                      `font-display border-b border-line py-4 text-2xl font-bold ${
+                        isActive ? 'text-amber-ink' : 'text-ink'
                       }`
                     }
                   >
@@ -190,7 +190,7 @@ export function Header() {
               </nav>
 
               <div>
-                <p className="hud mb-3 text-sable-faint">{t.nav.categories}</p>
+                <p className="mb-3 text-[13px] font-semibold text-ink-faint">{t.nav.categories}</p>
                 <ul className="grid gap-2">
                   {CATEGORIES.map((c) => {
                     const Icon = CATEGORY_ICONS[c.id];
@@ -198,9 +198,9 @@ export function Header() {
                       <li key={c.id}>
                         <Link
                           to={`/catalogue/${c.id}`}
-                          className="flex items-center gap-3 rounded-lg border border-trame bg-caisse px-4 py-3.5 text-sm text-sable"
+                          className="flex items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3.5 text-sm font-medium text-ink"
                         >
-                          <Icon className="h-5 w-5 shrink-0 text-amber" />
+                          <Icon className="h-5 w-5 shrink-0 text-amber-ink" />
                           {c.name[lang]}
                         </Link>
                       </li>

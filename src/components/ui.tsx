@@ -4,12 +4,13 @@ import { ApertureMark } from './Aperture';
 import { useLang } from '../context/LangContext';
 import { cardImage, cutoutImage, wideImage } from '../lib/images';
 
-/* ── Viewfinder corner brackets ────────────────────────────────────────────
-   Four L-shaped marks at the corners of an image. On hover (inside a `group`)
-   they grow and brighten, like a camera locking focus. */
+/* ── Corner brackets ───────────────────────────────────────────────────────
+   Four L-shaped marks framing an image, from the lens motif in the logo. They
+   sit in the rule colour and only pick up the accent on hover, so they read as
+   a printed catalogue frame rather than an on-screen effect. */
 export function Corners({ subtle = false }: { subtle?: boolean }) {
-  const tone = subtle ? 'border-sable/25' : 'border-amber/70';
-  const common = `pointer-events-none absolute z-10 h-3.5 w-3.5 ${tone} transition-all duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:h-6 group-hover:w-6 group-hover:border-amber`;
+  const tone = subtle ? 'border-line' : 'border-line-strong';
+  const common = `pointer-events-none absolute z-10 h-3.5 w-3.5 ${tone} transition-all duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:h-5 group-hover:w-5 group-hover:border-amber`;
   return (
     <>
       <span className={`${common} start-2 top-2 border-s border-t`} />
@@ -21,8 +22,8 @@ export function Corners({ subtle = false }: { subtle?: boolean }) {
 }
 
 /* ── Section heading ───────────────────────────────────────────────────────
-   Aperture tick + monospace eyebrow + display title. Used on every section so
-   the page has one rhythm instead of six. */
+   Aperture mark + eyebrow + display title. Used on every section so the page
+   keeps one rhythm instead of six. */
 export function SectionHeading({
   eyebrow,
   title,
@@ -38,14 +39,14 @@ export function SectionHeading({
 }) {
   return (
     <header className={`max-w-2xl ${align === 'center' ? 'mx-auto text-center' : ''}`}>
-      <p className={`hud flex items-center gap-2.5 text-amber ${align === 'center' ? 'justify-center' : ''}`}>
-        <ApertureMark className="h-3.5 w-3.5 shrink-0" />
+      <p className={`eyebrow flex items-center gap-2.5 text-amber-ink ${align === 'center' ? 'justify-center' : ''}`}>
+        <ApertureMark className="h-4 w-4 shrink-0" />
         {eyebrow}
       </p>
-      <h2 id={id} className="font-display mt-4 text-display font-bold text-white text-balance">
+      <h2 id={id} className="font-display mt-3.5 text-display font-bold text-ink text-balance">
         {title}
       </h2>
-      {lead && <p className="mt-4 text-[15px] leading-relaxed text-sable-dim sm:text-base">{lead}</p>}
+      {lead && <p className="mt-4 text-[15px] leading-relaxed text-ink-soft sm:text-base">{lead}</p>}
     </header>
   );
 }
@@ -55,11 +56,13 @@ export function SectionHeading({
 const buttonBase =
   'inline-flex items-center justify-center gap-2.5 rounded-full text-[13px] font-semibold tracking-wide transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-45 sm:text-sm';
 
+/* The orange only reaches 2.6:1 on white, so it is never used as small text.
+   As a fill with near-black type on top it clears 7:1. */
 const variants = {
-  primary: 'bg-amber text-black hover:bg-amber-lift active:scale-[.98] shadow-[0_0_0_0_rgba(236,131,4,.5)] hover:shadow-[0_6px_28px_-8px_rgba(236,131,4,.75)]',
-  outline: 'border border-trame-lift text-sable hover:border-amber hover:text-amber active:scale-[.98]',
-  solid: 'bg-caisse-lift text-sable border border-trame hover:border-trame-lift hover:bg-trame/60 active:scale-[.98]',
-  quiet: 'text-sable-dim hover:text-amber',
+  primary: 'bg-amber text-ink hover:bg-amber-deep active:scale-[.98] shadow-[0_2px_10px_-4px_rgba(236,131,4,.6)] hover:shadow-[0_8px_22px_-8px_rgba(236,131,4,.8)]',
+  outline: 'border border-line-strong text-ink hover:border-ink hover:bg-surface active:scale-[.98]',
+  solid: 'bg-ink text-page hover:bg-ink/90 active:scale-[.98]',
+  quiet: 'text-ink-soft hover:text-amber-ink',
 } as const;
 
 const sizes = {
@@ -123,21 +126,23 @@ export function PriceOnRequest({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   const { t } = useLang();
   if (size === 'lg') {
     return (
-      <div className="border-s-2 border-amber ps-4">
-        <p className="font-display text-title font-bold text-amber">{t.product.priceOnRequest}</p>
-        <p className="mt-1 text-[13px] text-sable-faint">{t.product.priceNote}</p>
+      <div className="rounded-lg border border-amber/40 bg-amber-wash px-5 py-4">
+        <p className="font-display text-title font-bold text-ink">{t.product.priceOnRequest}</p>
+        <p className="mt-1 text-[13px] text-amber-ink">{t.product.priceNote}</p>
       </div>
     );
   }
-  return <p className="hud whitespace-nowrap text-amber">{t.product.priceOnRequest}</p>;
+  return (
+    <p className="text-[13px] font-semibold whitespace-nowrap text-amber-ink">{t.product.priceOnRequest}</p>
+  );
 }
 
 /* ── Badge ─────────────────────────────────────────────────────────────────*/
 export function Badge({ children, tone = 'amber' }: { children: ReactNode; tone?: 'amber' | 'quiet' }) {
   return (
     <span
-      className={`hud inline-flex items-center rounded-full px-2.5 py-1.5 leading-none backdrop-blur-sm ${
-        tone === 'amber' ? 'bg-amber text-black' : 'border border-sable/25 bg-noir/70 text-sable'
+      className={`inline-flex items-center rounded-full px-2.5 py-1.5 text-[11px] leading-none font-semibold ${
+        tone === 'amber' ? 'bg-amber text-ink' : 'border border-line bg-page/90 text-ink-soft backdrop-blur-sm'
       }`}
     >
       {children}

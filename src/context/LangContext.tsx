@@ -17,11 +17,12 @@ interface LangValue {
 const LangContext = createContext<LangValue | null>(null);
 
 function initialLang(): Lang {
-  if (typeof window === 'undefined') return 'fr';
+  if (typeof window === 'undefined') return 'ar';
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored === 'fr' || stored === 'ar') return stored;
-  // French is the default; only switch on an explicitly Arabic browser.
-  return navigator.language?.startsWith('ar') ? 'ar' : 'fr';
+  // Arabic is the default. A visitor whose browser is set to French gets
+  // French on the first visit; everyone else lands in Arabic.
+  return navigator.language?.startsWith('fr') ? 'fr' : 'ar';
 }
 
 export function LangProvider({ children }: { children: ReactNode }) {

@@ -28,8 +28,8 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
   const category = getCategory(product.category);
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-trame bg-caisse transition-colors duration-300 hover:border-trame-lift focus-within:border-amber/60">
-      <div className="relative aspect-4/5 overflow-hidden bg-noir">
+    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-page transition-all duration-300 hover:border-line-strong hover:shadow-[0_16px_40px_-26px_rgba(23,19,15,.4)] focus-within:border-amber">
+      <div className="relative aspect-4/5 overflow-hidden border-b border-line bg-surface">
         <CardImage
           name={product.images[0]}
           alt={t.a11y.productImage(name)}
@@ -44,24 +44,22 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
         )}
         {inCart > 0 && (
           <div className="absolute end-3.5 top-3.5 z-20">
-            <span className="hud grid h-7 min-w-7 place-items-center rounded-full bg-amber px-2 text-black">
+            <span className="numeric grid h-7 min-w-7 place-items-center rounded-full bg-amber px-2 text-[12px] font-bold text-ink">
               {inCart}
             </span>
           </div>
         )}
-        {/* Bottom fade so the card title never fights a bright photo edge. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-caisse to-transparent" />
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
-        {category && <p className="hud text-sable-faint">{category.name[lang]}</p>}
-        <h3 className="font-display text-[15px] leading-snug font-semibold text-white sm:text-base">
+        {category && <p className="text-[12px] font-medium text-ink-faint">{category.name[lang]}</p>}
+        <h3 className="font-display text-[16px] leading-snug font-bold text-ink sm:text-[17px]">
           {/* The whole card is reachable through this one link. */}
           <Link to={`/produit/${product.slug}`} className="after:absolute after:inset-0 after:content-['']">
             {name}
           </Link>
         </h3>
-        <p className="line-clamp-2 text-[13px] leading-relaxed text-sable-dim">{product.shortDescription[lang]}</p>
+        <p className="line-clamp-2 text-[13px] leading-relaxed text-ink-soft">{product.shortDescription[lang]}</p>
 
         <div className="mt-auto space-y-3 pt-2">
           <PriceOnRequest />
@@ -71,10 +69,10 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
               add(product.slug);
               setJustAdded(true);
             }}
-            className="relative z-20 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-trame-lift text-[12px] font-semibold text-sable transition-colors hover:border-amber hover:bg-amber/8 hover:text-amber"
+            className="relative z-20 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-line-strong text-[12px] font-semibold text-ink transition-colors hover:border-amber hover:bg-amber-wash hover:text-amber-ink"
             aria-label={`${t.product.addToCart} — ${name}`}
           >
-            {justAdded ? <CheckIcon className="h-4 w-4 text-amber" /> : <CartIcon className="h-4 w-4" />}
+            {justAdded ? <CheckIcon className="h-4 w-4 text-amber-ink" /> : <CartIcon className="h-4 w-4" />}
             {justAdded ? t.product.added : t.product.addToCart}
           </button>
         </div>

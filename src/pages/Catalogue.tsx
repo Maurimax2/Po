@@ -77,10 +77,10 @@ export default function Catalogue() {
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-trame">
-        <div className="trame-grid absolute inset-0 opacity-50" aria-hidden />
+      <section className="relative overflow-hidden border-b border-line">
+        <div className="trame-grid absolute inset-0 opacity-40" aria-hidden />
         <div
-          className="absolute inset-0 bg-[radial-gradient(70%_80%_at_20%_0%,rgba(236,131,4,0.10),transparent_70%)]"
+          className="absolute inset-0 bg-[radial-gradient(70%_80%_at_20%_0%,rgba(236,131,4,0.08),transparent_72%)]"
           aria-hidden
         />
         <Container className="relative py-12 sm:py-16">
@@ -97,20 +97,20 @@ export default function Catalogue() {
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="relative flex-1">
-              <SearchIcon className="pointer-events-none absolute start-4 top-1/2 h-4 w-4 -translate-y-1/2 text-sable-faint" />
+              <SearchIcon className="pointer-events-none absolute start-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-faint" />
               <input
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t.catalogue.searchPlaceholder}
                 aria-label={t.catalogue.search}
-                className="h-12 w-full rounded-full border border-trame bg-caisse ps-11 pe-11 text-sm text-white placeholder:text-sable-faint focus:border-amber focus:outline-none"
+                className="h-12 w-full rounded-full border border-line bg-surface ps-11 pe-11 text-sm text-ink placeholder:text-ink-faint focus:border-amber focus:outline-none"
               />
               {query && (
                 <button
                   type="button"
                   onClick={() => setQuery('')}
-                  className="absolute end-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-sable-faint transition-colors hover:text-amber"
+                  className="absolute end-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-ink-faint transition-colors hover:text-amber-ink"
                   aria-label={t.catalogue.clearSearch}
                 >
                   <CloseIcon className="h-4 w-4" />
@@ -119,14 +119,14 @@ export default function Catalogue() {
             </div>
 
             <label className="flex items-center gap-3 sm:shrink-0">
-              <span className="hud text-sable-faint">{t.catalogue.sort}</span>
+              <span className="text-[13px] font-semibold text-ink-faint">{t.catalogue.sort}</span>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortKey)}
-                className="h-12 rounded-full border border-trame bg-caisse px-4 text-sm text-white focus:border-amber focus:outline-none"
+                className="h-12 rounded-full border border-line bg-surface px-4 text-sm text-ink focus:border-amber focus:outline-none"
               >
                 {(Object.keys(t.catalogue.sortOptions) as SortKey[]).map((key) => (
-                  <option key={key} value={key} className="bg-caisse">
+                  <option key={key} value={key} className="bg-surface">
                     {t.catalogue.sortOptions[key]}
                   </option>
                 ))}
@@ -140,10 +140,10 @@ export default function Catalogue() {
               <li>
                 <Link
                   to="/catalogue"
-                  className={`hud inline-flex h-10 items-center rounded-full border px-4 transition-colors ${
+                  className={`eyebrow inline-flex h-10 items-center rounded-full border px-4 transition-colors ${
                     !active
-                      ? 'border-amber bg-amber text-black'
-                      : 'border-trame bg-caisse text-sable-dim hover:border-trame-lift hover:text-sable'
+                      ? 'border-amber bg-amber text-ink'
+                      : 'border-line bg-surface text-ink-soft hover:border-line-strong hover:text-ink'
                   }`}
                 >
                   {t.catalogue.all}
@@ -156,10 +156,10 @@ export default function Catalogue() {
                   <li key={c.id}>
                     <Link
                       to={`/catalogue/${c.id}`}
-                      className={`hud inline-flex h-10 items-center gap-2 rounded-full border px-4 transition-colors ${
+                      className={`eyebrow inline-flex h-10 items-center gap-2 rounded-full border px-4 transition-colors ${
                         on
-                          ? 'border-amber bg-amber text-black'
-                          : 'border-trame bg-caisse text-sable-dim hover:border-trame-lift hover:text-sable'
+                          ? 'border-amber bg-amber text-ink'
+                          : 'border-line bg-surface text-ink-soft hover:border-line-strong hover:text-ink'
                       }`}
                     >
                       <Icon className="h-4 w-4" />
@@ -171,16 +171,16 @@ export default function Catalogue() {
             </ul>
           </nav>
 
-          <p className="hud text-sable-faint" role="status" aria-live="polite">
+          <p className="text-[13px] font-semibold text-ink-faint" role="status" aria-live="polite">
             {t.catalogue.resultCount(results.length)}
           </p>
         </div>
 
         {/* Results */}
         {unknownCategory || results.length === 0 ? (
-          <div className="mt-12 rounded-xl border border-trame bg-caisse px-6 py-16 text-center">
-            <h2 className="font-display text-title font-bold text-white">{t.catalogue.noResults}</h2>
-            <p className="mx-auto mt-3 max-w-sm text-sm text-sable-dim">{t.catalogue.noResultsText}</p>
+          <div className="mt-12 rounded-xl border border-line bg-surface px-6 py-16 text-center">
+            <h2 className="font-display text-title font-bold text-ink">{t.catalogue.noResults}</h2>
+            <p className="mx-auto mt-3 max-w-sm text-sm text-ink-soft">{t.catalogue.noResultsText}</p>
             <div className="mt-7 flex justify-center">
               <Button
                 variant="outline"

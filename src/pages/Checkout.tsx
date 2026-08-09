@@ -59,8 +59,8 @@ export default function Checkout() {
     return (
       <Container className="py-20 sm:py-28">
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="font-display text-display font-bold text-white">{t.cart.empty}</h1>
-          <p className="mt-4 text-[15px] text-sable-dim">{t.checkout.emptyRedirect}</p>
+          <h1 className="font-display text-display font-bold text-ink">{t.cart.empty}</h1>
+          <p className="mt-4 text-[15px] text-ink-soft">{t.checkout.emptyRedirect}</p>
           <div className="mt-9 flex justify-center">
             <LinkButton to="/catalogue" size="lg">
               {t.cart.emptyCta}
@@ -73,29 +73,29 @@ export default function Checkout() {
   }
 
   const field =
-    'h-12 w-full rounded-lg border bg-noir px-4 text-sm text-white placeholder:text-sable-faint focus:outline-none';
-  const ok = 'border-trame focus:border-amber';
+    'h-12 w-full rounded-lg border bg-page px-4 text-sm text-ink placeholder:text-ink-faint focus:outline-none';
+  const ok = 'border-line focus:border-amber';
   const bad = 'border-red-500/70 focus:border-red-400';
 
   return (
     <Container className="py-12 sm:py-16">
       <header className="max-w-2xl">
-        <p className="hud flex items-center gap-2.5 text-amber">
+        <p className="eyebrow flex items-center gap-2.5 text-amber-ink">
           <ApertureMark className="h-3.5 w-3.5" />
           {t.contactStrip.eyebrow}
         </p>
-        <h1 className="font-display mt-4 text-display font-bold text-white">{t.checkout.title}</h1>
-        <p className="mt-4 text-[15px] leading-relaxed text-sable-dim">{t.checkout.lead}</p>
+        <h1 className="font-display mt-4 text-display font-bold text-ink">{t.checkout.title}</h1>
+        <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">{t.checkout.lead}</p>
       </header>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_22rem] lg:items-start lg:gap-10">
-        <form onSubmit={submit} noValidate className="min-w-0 rounded-xl border border-trame bg-caisse p-5 sm:p-7">
-          <h2 className="hud text-sable-faint">{t.checkout.section}</h2>
+        <form onSubmit={submit} noValidate className="min-w-0 rounded-xl border border-line bg-surface p-5 sm:p-7">
+          <h2 className="text-[13px] font-semibold text-ink-faint">{t.checkout.section}</h2>
 
           <div className="mt-6 space-y-5">
             <div>
-              <label htmlFor="f-name" className="mb-2 block text-[13px] font-medium text-sable">
-                {t.checkout.name} <span className="text-amber">*</span>
+              <label htmlFor="f-name" className="mb-2 block text-[13px] font-medium text-ink">
+                {t.checkout.name} <span className="text-amber-ink">*</span>
               </label>
               <input
                 id="f-name"
@@ -117,8 +117,8 @@ export default function Checkout() {
             </div>
 
             <div>
-              <label htmlFor="f-phone" className="mb-2 block text-[13px] font-medium text-sable">
-                {t.checkout.phone} <span className="text-amber">*</span>
+              <label htmlFor="f-phone" className="mb-2 block text-[13px] font-medium text-ink">
+                {t.checkout.phone} <span className="text-amber-ink">*</span>
               </label>
               <input
                 id="f-phone"
@@ -143,8 +143,8 @@ export default function Checkout() {
             </div>
 
             <div>
-              <label htmlFor="f-city" className="mb-2 block text-[13px] font-medium text-sable">
-                {t.checkout.city} <span className="text-amber">*</span>
+              <label htmlFor="f-city" className="mb-2 block text-[13px] font-medium text-ink">
+                {t.checkout.city} <span className="text-amber-ink">*</span>
               </label>
               <input
                 id="f-city"
@@ -166,8 +166,8 @@ export default function Checkout() {
             </div>
 
             <fieldset>
-              <legend className="mb-3 block text-[13px] font-medium text-sable">
-                {t.checkout.delivery} <span className="text-amber">*</span>
+              <legend className="mb-3 block text-[13px] font-medium text-ink">
+                {t.checkout.delivery} <span className="text-amber-ink">*</span>
               </legend>
               <div className="grid gap-2.5">
                 {(Object.keys(t.checkout.deliveryOptions) as DeliveryMode[]).map((mode) => {
@@ -176,7 +176,7 @@ export default function Checkout() {
                     <label
                       key={mode}
                       className={`flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3.5 text-sm transition-colors ${
-                        on ? 'border-amber bg-amber/8 text-white' : 'border-trame bg-noir text-sable-dim hover:border-trame-lift'
+                        on ? 'border-amber bg-amber-wash text-ink' : 'border-line bg-page text-ink-soft hover:border-line-strong'
                       }`}
                     >
                       <input
@@ -189,7 +189,7 @@ export default function Checkout() {
                       />
                       <span
                         className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border transition-colors ${
-                          on ? 'border-amber' : 'border-trame-lift'
+                          on ? 'border-amber' : 'border-line-strong'
                         }`}
                         aria-hidden
                       >
@@ -203,9 +203,9 @@ export default function Checkout() {
             </fieldset>
 
             <div>
-              <label htmlFor="f-note" className="mb-2 block text-[13px] font-medium text-sable">
+              <label htmlFor="f-note" className="mb-2 block text-[13px] font-medium text-ink">
                 {t.checkout.note}{' '}
-                <span className="hud text-sable-faint">({t.checkout.optional})</span>
+                <span className="text-[12px] font-normal text-ink-faint">({t.checkout.optional})</span>
               </label>
               <textarea
                 id="f-note"
@@ -214,7 +214,7 @@ export default function Checkout() {
                 value={details.note}
                 onChange={(e) => set('note', e.target.value)}
                 placeholder={t.checkout.notePlaceholder}
-                className={`${ok} w-full rounded-lg border bg-noir px-4 py-3 text-sm leading-relaxed text-white placeholder:text-sable-faint focus:outline-none`}
+                className={`${ok} w-full rounded-lg border bg-page px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-ink-faint focus:outline-none`}
               />
             </div>
           </div>
@@ -226,14 +226,14 @@ export default function Checkout() {
 
           {/* Fallback — some in-app browsers swallow window.open. */}
           {sent && (
-            <div className="mt-6 rounded-lg border border-amber/40 bg-amber/8 p-5" role="status">
-              <p className="font-display flex items-center gap-2 text-sm font-bold text-white">
-                <CheckIcon className="h-4 w-4 text-amber" />
+            <div className="mt-6 rounded-lg border border-amber/40 bg-amber-wash p-5" role="status">
+              <p className="font-display flex items-center gap-2 text-sm font-bold text-ink">
+                <CheckIcon className="h-4 w-4 text-amber-ink" />
                 {t.checkout.sentTitle}
               </p>
-              <p className="mt-2 text-[13px] leading-relaxed text-sable-dim">{t.checkout.sentText}</p>
-              <p className="mt-4 text-[13px] font-semibold text-sable">{t.checkout.fallbackTitle}</p>
-              <p className="mt-1 text-[13px] text-sable-dim">{t.checkout.fallbackText}</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">{t.checkout.sentText}</p>
+              <p className="mt-4 text-[13px] font-semibold text-ink">{t.checkout.fallbackTitle}</p>
+              <p className="mt-1 text-[13px] text-ink-soft">{t.checkout.fallbackText}</p>
               <ExternalButton href={link} variant="outline" size="md" className="mt-4 w-full">
                 <WhatsAppIcon className="h-4 w-4" />
                 {t.checkout.fallbackLink}
@@ -245,7 +245,7 @@ export default function Checkout() {
             <button
               type="button"
               onClick={() => setShowPreview((v) => !v)}
-              className="hud text-sable-faint underline-offset-4 transition-colors hover:text-amber hover:underline"
+              className="text-[13px] font-medium text-ink-faint underline-offset-4 transition-colors hover:text-amber-ink hover:underline"
               aria-expanded={showPreview}
             >
               {showPreview ? t.checkout.hidePreview : t.checkout.showPreview}
@@ -253,7 +253,7 @@ export default function Checkout() {
             {showPreview && (
               <pre
                 dir="ltr"
-                className="font-mono mt-3 max-h-72 overflow-auto rounded-lg border border-trame bg-noir p-4 text-[11px] leading-relaxed whitespace-pre-wrap text-sable-dim"
+                className="numeric mt-3 max-h-72 overflow-auto rounded-lg border border-line bg-page p-4 text-[11px] leading-relaxed whitespace-pre-wrap text-ink-soft"
               >
                 {message}
               </pre>
@@ -262,24 +262,24 @@ export default function Checkout() {
         </form>
 
         {/* Order recap — quantities only. */}
-        <aside className="min-w-0 rounded-xl border border-trame bg-caisse p-6 lg:sticky lg:top-24">
-          <h2 className="hud text-sable-faint">{t.checkout.orderSection}</h2>
+        <aside className="min-w-0 rounded-xl border border-line bg-surface p-6 lg:sticky lg:top-24">
+          <h2 className="text-[13px] font-semibold text-ink-faint">{t.checkout.orderSection}</h2>
           <ul className="mt-5 space-y-3.5">
             {resolved.map(({ product, qty }) => (
               <li key={product.slug} className="flex items-start justify-between gap-3 text-[13px]">
                 <Link
                   to={`/produit/${product.slug}`}
-                  className="leading-snug text-sable transition-colors hover:text-amber"
+                  className="leading-snug text-ink transition-colors hover:text-amber-ink"
                 >
                   {product.name[lang]}
                 </Link>
-                <span className="font-mono shrink-0 text-sable-faint tabular-nums">×{qty}</span>
+                <span className="numeric shrink-0 text-ink-faint tabular-nums">×{qty}</span>
               </li>
             ))}
           </ul>
-          <div className="mt-6 flex items-center justify-between gap-4 border-t border-trame pt-5 text-sm">
-            <span className="text-sable-dim">{t.cart.totalUnits}</span>
-            <span className="font-mono font-semibold text-white tabular-nums">{unitCount}</span>
+          <div className="mt-6 flex items-center justify-between gap-4 border-t border-line pt-5 text-sm">
+            <span className="text-ink-soft">{t.cart.totalUnits}</span>
+            <span className="numeric font-semibold text-ink tabular-nums">{unitCount}</span>
           </div>
           <div className="mt-5">
             <PriceOnRequest size="lg" />

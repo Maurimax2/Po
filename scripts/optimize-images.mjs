@@ -4,11 +4,12 @@
  * The source photos are real shop photos: mixed aspect ratios, mixed lighting,
  * some are boxes on a shelf shot on a phone. Rather than hard-cropping them
  * (which is where sites like this usually fall apart), every product image is
- * *contained* on a fixed 4:5 canvas over a blurred, darkened copy of itself.
- * The result is a uniform, deliberate-looking inventory grid.
+ * *contained* on a fixed 4:5 canvas over a blurred, brightened copy of itself,
+ * washed back toward the page white. The result is a uniform,
+ * deliberate-looking inventory grid on a light page.
  *
  * Two source images are clean renders on a white background. Those get the
- * white keyed out to alpha so they can sit on the dark UI, and are also
+ * white keyed out to alpha so they can be laid over the page, and are also
  * exported as standalone cut-outs for the hero / feature sections.
  *
  * Run with:  npm run images
@@ -31,7 +32,7 @@ const WIDE_RATIO = 10 / 16;
 /** Transparent cut-outs of the two clean supplier renders (hero + features). */
 const CUTOUT_WIDTHS = [360, 720, 1080];
 
-const INK = { r: 0x14, g: 0x12, b: 0x15 }; // --color-caisse
+const SURFACE = { r: 0xfa, g: 0xf7, b: 0xf2 }; // --color-surface
 
 /** Images that are clean renders on white and need the background keyed out. */
 const WHITE_BG = new Set(['cam-solaire-ptz-4-lentilles', 'cam-4g-wifi-double-lentille-ptz']);
@@ -88,14 +89,13 @@ async function keyWhite(input) {
 
 
 /**
- * Rebuilds the logo as a clean two-colour mark for dark surfaces.
+ * Rebuilds the logo as a clean two-colour mark.
  *
- * The source is a JPEG on white: keying the white out leaves a grey halo of
- * compression artefacts that is invisible on white and glaring on black, and
- * the black half of the mark disappears entirely on a dark UI. So instead of
- * keying, every pixel is classified — saturated pixels become the brand amber,
- * neutral pixels become the ink colour with alpha taken from how dark they
- * were. Antialiasing survives, the halo does not.
+ * The source is a JPEG on white, so keying the white out leaves a grey halo of
+ * compression artefacts. Instead of keying, every pixel is classified:
+ * saturated pixels become the brand amber, neutral pixels become the ink colour
+ * with alpha taken from how dark they were. Antialiasing survives, the halo
+ * does not, and the mark can be dropped on any background.
  */
 async function brandMark(input, ink) {
   const { data, info } = await sharp(input).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -116,14 +116,14 @@ async function brandMark(input, ink) {
     .png({ compressionLevel: 9 });
 }
 
-/** A soft amber pool of light, used behind keyed-out renders instead of a blur. */
-function glow(w, h) {
+/** A warm wash behind the keyed-out renders, in place of a blurred backdrop. */
+function warmWash(w, h) {
   return Buffer.from(
     `<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="g" cx="50%" cy="46%" r="62%">
-          <stop offset="0%" stop-color="#EC8304" stop-opacity="0.30"/>
-          <stop offset="55%" stop-color="#EC8304" stop-opacity="0.06"/>
+        <radialGradient id="g" cx="50%" cy="46%" r="64%">
+          <stop offset="0%" stop-color="#EC8304" stop-opacity="0.13"/>
+          <stop offset="60%" stop-color="#EC8304" stop-opacity="0.04"/>
           <stop offset="100%" stop-color="#EC8304" stop-opacity="0"/>
         </radialGradient>
       </defs>
@@ -132,14 +132,18 @@ function glow(w, h) {
   );
 }
 
-/** Vignette so every card darkens toward its own edges — the viewfinder feel. */
-function vignette(w, h) {
+/**
+ * Edge fade. The dark build darkened the corners like a viewfinder; on a light
+ * page the same job is done by fading the photo out into the card instead, so
+ * the blurred backdrop never draws a hard rectangle.
+ */
+function edgeFade(w, h) {
   return Buffer.from(
     `<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="v" cx="50%" cy="48%" r="72%">
-          <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
-          <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
+        <radialGradient id="v" cx="50%" cy="48%" r="74%">
+          <stop offset="52%" stop-color="#FAF7F2" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#FAF7F2" stop-opacity="0.72"/>
         </radialGradient>
       </defs>
       <rect width="100%" height="100%" fill="url(#v)"/>
@@ -152,12 +156,21 @@ async function compose({ source, width, ratio, keyed, pad }) {
   const layers = [];
 
   if (keyed) {
-    layers.push({ input: glow(width, height), blend: 'over' });
+    layers.push({ input: warmWash(width, height), blend: 'over' });
   } else {
+    // Blurred, desaturated and lifted toward white, then veiled again with a
+    // flat white at 58% — a pale field the photo can sit on without the card
+    // turning into a second photograph.
     const bg = await sharp(source)
       .resize(width, height, { fit: 'cover', position: 'attention' })
       .blur(Math.max(8, width / 34))
-      .modulate({ saturation: 0.45, brightness: 0.42 })
+      .modulate({ saturation: 0.32, brightness: 1.28 })
+      .composite([
+        {
+          input: { create: { width, height, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 0.58 } } },
+          blend: 'over',
+        },
+      ])
       .toBuffer();
     layers.push({ input: bg, blend: 'over' });
   }
@@ -169,10 +182,10 @@ async function compose({ source, width, ratio, keyed, pad }) {
     })
     .toBuffer();
   layers.push({ input: inner, gravity: 'center' });
-  layers.push({ input: vignette(width, height), blend: 'over' });
+  layers.push({ input: edgeFade(width, height), blend: 'over' });
 
   return sharp({
-    create: { width, height, channels: 4, background: INK },
+    create: { width, height, channels: 4, background: SURFACE },
   })
     .composite(layers)
     .webp({ quality: 76, effort: 5 })
@@ -255,7 +268,7 @@ async function run() {
         const h = Math.round(w * WIDE_RATIO);
         const buf = await sharp(source)
           .resize(w, h, { fit: 'cover', position: 'attention' })
-          .composite([{ input: vignette(w, h), blend: 'over' }])
+          .composite([{ input: edgeFade(w, h), blend: 'over' }])
           .webp({ quality: 74, effort: 5 })
           .toBuffer();
         bytes += buf.length;
@@ -265,19 +278,19 @@ async function run() {
   }
 
   // --- Brand marks -------------------------------------------------------
-  const SABLE = [0xed, 0xe4, 0xd6];
+  const INK = [0x17, 0x13, 0x0f];
   const source = path.join(BRAND, 'logo-basma.jpg');
-  const full = await (await brandMark(source, SABLE)).toBuffer();
+  const full = await (await brandMark(source, INK)).toBuffer();
 
   // Social preview card. This matters more than usual here: the shop shares
   // its link inside WhatsApp, which renders og:image in the chat bubble.
-  await sharp({ create: { width: 1200, height: 630, channels: 4, background: '#0B0B0C' } })
+  await sharp({ create: { width: 1200, height: 630, channels: 4, background: '#FFFFFF' } })
     .composite([
       {
         input: Buffer.from(
           `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-            <defs><radialGradient id="o" cx="50%" cy="42%" r="60%">
-              <stop offset="0%" stop-color="#EC8304" stop-opacity="0.22"/>
+            <defs><radialGradient id="o" cx="50%" cy="42%" r="62%">
+              <stop offset="0%" stop-color="#EC8304" stop-opacity="0.14"/>
               <stop offset="100%" stop-color="#EC8304" stop-opacity="0"/>
             </radialGradient></defs>
             <rect width="100%" height="100%" fill="url(#o)"/>
@@ -302,8 +315,8 @@ async function run() {
     .png({ compressionLevel: 9 })
     .toFile(`${OUT}/cutouts/logo-mark.png`);
 
-  // Favicon / home-screen icon: the mark on the brand black, squared off.
-  await sharp({ create: { width: 256, height: 256, channels: 4, background: '#0B0B0C' } })
+  // Favicon / home-screen icon: the mark on white, squared off.
+  await sharp({ create: { width: 256, height: 256, channels: 4, background: '#FFFFFF' } })
     .composite([{ input: await sharp(mark).resize(196, 196, { fit: 'inside' }).toBuffer(), gravity: 'center' }])
     .png({ compressionLevel: 9 })
     .toFile('public/favicon.png');
